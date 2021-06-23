@@ -27,12 +27,6 @@
 	"cmake.configureOnOpen": true,
 	"cmake.generator": "Ninja",
 	"cmake.saveBeforeBuild": true,
-	"editor.fontFamily": "Consolas, 'Courier New', monospace",
-	"editor.fontSize": 20,
-	"editor.minimap.enabled": false,
-	"editor.rulers": [
-		100
-	],
 	"files.associations": {
 		"algorithm": "cpp",
 		"array": "cpp",
