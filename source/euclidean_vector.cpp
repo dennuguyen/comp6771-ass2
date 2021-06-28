@@ -5,13 +5,26 @@
 
 namespace comp6771 {
 	euclidean_vector::euclidean_vector() {}
-	euclidean_vector::euclidean_vector(int) {}
-	euclidean_vector::euclidean_vector(int, double) {}
-	euclidean_vector::euclidean_vector(std::vector<double>::const_iterator,
-	                                   std::vector<double>::const_iterator) {}
-	euclidean_vector::euclidean_vector(std::initializer_list<double>) {}
-	euclidean_vector::euclidean_vector(euclidean_vector const&) {}
-	euclidean_vector::euclidean_vector(euclidean_vector&&) noexcept {}
+
+	euclidean_vector::euclidean_vector(int dimension)
+	: magnitude_(std::make_unique<double[]>(static_cast<std::size_t>(dimension)))
+	, dimension_(static_cast<std::size_t>(dimension)) {}
+
+	euclidean_vector::euclidean_vector(int dimension, double value)
+	: magnitude_(std::make_unique<double[]>(static_cast<std::size_t>(dimension)))
+	, dimension_(static_cast<std::size_t>(dimension)) {}
+
+	euclidean_vector::euclidean_vector(std::vector<double>::const_iterator start,
+	                                   std::vector<double>::const_iterator end) {}
+
+	euclidean_vector::euclidean_vector(std::initializer_list<double> list) {}
+
+	euclidean_vector::euclidean_vector(euclidean_vector const& vec) {}
+
+	euclidean_vector::euclidean_vector(euclidean_vector&& vec) noexcept
+	: magnitude_(std::move(vec.magnitude_))
+	, dimension_(std::move(vec.dimension_)) {}
+
 	auto euclidean_vector::operator=(euclidean_vector const&) -> euclidean_vector& {}
 	auto euclidean_vector::operator=(euclidean_vector&&) noexcept -> euclidean_vector& {}
 	auto euclidean_vector::operator[](euclidean_vector const&) noexcept -> euclidean_vector& {}
