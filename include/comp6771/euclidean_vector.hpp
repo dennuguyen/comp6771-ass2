@@ -136,7 +136,7 @@ namespace comp6771 {
 
 		// ass2 spec requires we use double[]
 		// NOLINTNEXTLINE(modernize-avoid-c-arrays)
-		std::unique_ptr<double[]> magnitude_;
+		std::unique_ptr<double[]> magnitude_; // Magnitudes of each direction in space.
 	};
 } // namespace comp6771
 #endif // COMP6771_EUCLIDEAN_VECTOR_HPP
