@@ -26,7 +26,11 @@ namespace comp6771 {
 	euclidean_vector::operator std::list<double>() {}
 	[[nodiscard]] auto euclidean_vector::at(int) const -> double {}
 	auto euclidean_vector::at(int) -> double& {}
-	auto euclidean_vector::dimensions() -> int {}
+
+	[[nodiscard]] auto euclidean_vector::dimensions() const -> int {
+		return static_cast<int>(this->dimension_);
+	}
+
 	auto euclidean_vector::euclidean_norm(euclidean_vector const& v) -> double {}
 	auto euclidean_vector::unit(euclidean_vector const& v) -> euclidean_vector {}
 	auto euclidean_vector::dot(euclidean_vector const& x, euclidean_vector const& y) -> double {}

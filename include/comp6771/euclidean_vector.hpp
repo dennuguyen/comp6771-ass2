@@ -91,7 +91,7 @@ namespace comp6771 {
 		auto at(int) -> double&;
 
 		// Return the number of dimensions in a particular euclidean_vector.
-		auto dimensions() -> int;
+		[[nodiscard]] auto dimensions() const -> int;
 
 		// True if the two vectors are equal in the number of dimensions and the magnitude in each
 		// dimension is equal.
@@ -136,7 +136,8 @@ namespace comp6771 {
 
 		// ass2 spec requires we use double[]
 		// NOLINTNEXTLINE(modernize-avoid-c-arrays)
-		std::unique_ptr<double[]> magnitude_; // Magnitudes of each direction in space.
+		std::unique_ptr<double[]> magnitude_; // Magnitudes of each dimension.
+		std::size_t dimension_; // Dimension of vector.
 	};
 } // namespace comp6771
 #endif // COMP6771_EUCLIDEAN_VECTOR_HPP
