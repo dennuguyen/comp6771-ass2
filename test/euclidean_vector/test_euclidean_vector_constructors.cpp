@@ -50,3 +50,58 @@ TEST_CASE("Basic constructor") {
 	oss << (a1 + a2 + a3);
 	CHECK(oss.str() == "[9 9 9]");
 }
+
+TEST_CASE("Basic constructor should instantiate correctly") {
+	SECTION("Default values") {
+		auto vec = comp6771::euclidean_vector();
+		CHECK(vec.at(0) == 0.0);
+		CHECK(vec.dimensions() == 1);
+	}
+}
+TEST_CASE("Constructor taking a dimension should instantiate correctly") {
+	SECTION("0 dimension") {
+		auto vec = comp6771::euclidean_vector(0);
+		CHECK(vec.dimensions() == 0);
+	}
+
+	SECTION("1 dimension") {
+		auto vec = comp6771::euclidean_vector(1);
+		CHECK(vec.at(0) == 0.0);
+		CHECK(vec.dimensions() == 1);
+	}
+
+	SECTION("2 dimensions") {
+		auto vec = comp6771::euclidean_vector(2);
+		CHECK(vec.at(0) == 0.0);
+		CHECK(vec.at(1) == 0.0);
+		CHECK(vec.dimensions() == 2);
+	}
+}
+
+TEST_CASE("Constructor taking a dimension and value should instantiate correctly") {
+	SECTION("0 dimension and 0 value") {
+		auto vec = comp6771::euclidean_vector(0, 0.0);
+		CHECK(vec.dimensions() == 0);
+	}
+
+	SECTION("1 dimension and 0 value") {
+		auto vec = comp6771::euclidean_vector(1, 0.0);
+		CHECK(vec.at(0) == 0.0);
+		CHECK(vec.dimensions() == 1);
+	}
+
+	SECTION("2 dimensions") {
+		auto vec = comp6771::euclidean_vector(2);
+		CHECK(vec.at(0) == 0.0);
+		CHECK(vec.at(1) == 0.0);
+		CHECK(vec.dimensions() == 2);
+	}
+}
+
+TEST_CASE("Constructor taking start and end iterators should instantiate correctly") {}
+
+TEST_CASE("Constructor taking an initialiser list should instantiate correctly") {}
+
+TEST_CASE("Copy constructor should instantiate correctly") {}
+
+TEST_CASE("Move constructor should instantiate correctly") {}
