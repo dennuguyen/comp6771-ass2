@@ -95,29 +95,29 @@ namespace comp6771 {
 
 		// True if the two vectors are equal in the number of dimensions and the magnitude in each
 		// dimension is equal.
-		friend auto operator==(euclidean_vector const&, euclidean_vector const&) -> bool;
+		friend auto operator==(euclidean_vector const&, euclidean_vector const&) -> bool {}
 
 		// True if the two vectors are not equal in the number of dimensions or the magnitude in each
 		// dimension is not equal.
-		friend auto operator!=(euclidean_vector const&, euclidean_vector const&) -> bool;
+		friend auto operator!=(euclidean_vector const&, euclidean_vector const&) -> bool {}
 
 		// For adding vectors of the same dimension.
-		friend auto operator+(euclidean_vector const&, euclidean_vector const&) -> euclidean_vector;
+		friend auto operator+(euclidean_vector const&, euclidean_vector const&) -> euclidean_vector {}
 
 		// For substracting vectors of the same dimension.
-		friend auto operator-(euclidean_vector const&, euclidean_vector const&) -> euclidean_vector;
+		friend auto operator-(euclidean_vector const&, euclidean_vector const&) -> euclidean_vector {}
 
 		// For scalar multiplication, e.g. [1 2] * 3 = 3 * [1 2] = [3 6]. Hint: you'll need two
 		// operators, as the scalar can be either side of the vector.
-		friend auto operator*(euclidean_vector const&, double) -> euclidean_vector;
+		friend auto operator*(euclidean_vector const&, double) -> euclidean_vector {}
 
 		// For scalar division, e.g. [3 6] / 2 = [1.5 3].
-		friend auto operator/(euclidean_vector const&, double) -> euclidean_vector;
+		friend auto operator/(euclidean_vector const&, double) -> euclidean_vector {}
 
 		// Prints out the magnitude in each dimension of the Euclidean vector (surrounded by [ and ]),
 		// e.g. for a 3-dimensional vector: [1 2 3]. Note: When printing the magnitude, simple use the
 		// double << operator.
-		friend auto operator<<(std::ostream&, euclidean_vector const&) -> std::ostream&;
+		friend auto operator<<(std::ostream&, euclidean_vector const&) -> std::ostream& {}
 
 	private:
 		// Returns the Euclidean norm of the vector as a double. The Euclidean norm is the square root

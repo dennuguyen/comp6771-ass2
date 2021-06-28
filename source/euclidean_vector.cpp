@@ -27,13 +27,6 @@ namespace comp6771 {
 	[[nodiscard]] auto euclidean_vector::at(int) const -> double {}
 	auto euclidean_vector::at(int) -> double& {}
 	auto euclidean_vector::dimensions() -> int {}
-	auto operator==(euclidean_vector const&, euclidean_vector const&) -> bool {}
-	auto operator!=(euclidean_vector const&, euclidean_vector const&) -> bool {}
-	auto operator+(euclidean_vector const&, euclidean_vector const&) -> euclidean_vector {}
-	auto operator-(euclidean_vector const&, euclidean_vector const&) -> euclidean_vector {}
-	auto euclidean_vector::operator*(euclidean_vector const&, double) -> euclidean_vector {}
-	auto euclidean_vector::operator/(euclidean_vector const&, double) -> euclidean_vector {}
-	auto euclidean_vector::operator<<(std::ostream&, euclidean_vector const&) -> std::ostream& {}
 	auto euclidean_vector::euclidean_norm(euclidean_vector const& v) -> double {}
 	auto euclidean_vector::unit(euclidean_vector const& v) -> euclidean_vector {}
 	auto euclidean_vector::dot(euclidean_vector const& x, euclidean_vector const& y) -> double {}
