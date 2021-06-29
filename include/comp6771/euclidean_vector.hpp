@@ -1,6 +1,8 @@
 #ifndef COMP6771_EUCLIDEAN_VECTOR_HPP
 #define COMP6771_EUCLIDEAN_VECTOR_HPP
 
+#include <algorithm>
+#include <iostream>
 #include <list>
 #include <memory>
 #include <stdexcept>
@@ -64,7 +66,14 @@ namespace comp6771 {
 		auto operator+() -> euclidean_vector;
 
 		// Returns a copy of the current object, where each scalar value has its sign negated.
-		auto operator-() -> euclidean_vector;
+		auto operator-() noexcept -> euclidean_vector {
+			auto v = euclidean_vector(static_cast<int>(dimension_));
+			std::copy(magnitude_.get(), magnitude_.get() + dimension_, v.magnitude_.get());
+			std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.dimension_, [](auto& i) {
+				i = -i;
+			});
+			return v;
+		}
 
 		// For adding vectors of the same dimension.
 		auto operator+=(euclidean_vector const&) -> euclidean_vector&;
@@ -127,7 +136,9 @@ namespace comp6771 {
 		friend auto operator-(euclidean_vector const& x, euclidean_vector const& y)
 		   -> euclidean_vector {
 			if (x.dimensions() != y.dimensions()) {
-				throw euclidean_vector_error("Dimensions of LHS(X) and RHS(Y) do not match");
+				auto const what = "Dimensions of LHS(" + std::to_string(x.dimensions()) + ") and RHS("
+				                  + std::to_string(y.dimensions()) + ") do not match";
+				throw euclidean_vector_error(what);
 			}
 		}
 
@@ -146,6 +157,14 @@ namespace comp6771 {
 		// e.g. for a 3-dimensional vector: [1 2 3]. Note: When printing the magnitude, simple use the
 		// double << operator.
 		friend auto operator<<(std::ostream& os, euclidean_vector const& v) noexcept -> std::ostream& {
+			auto str = std::string();
+			std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.dimension_, [&str](auto& i) {
+				str += std::to_string(i);
+				str += " ";
+			});
+			str.pop_back(); // Remove last whitespace.
+			os << "[" << str << "]";
+			return os;
 		}
 
 	private:
