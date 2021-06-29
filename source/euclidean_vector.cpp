@@ -20,7 +20,9 @@ namespace comp6771 {
 
 	euclidean_vector::euclidean_vector(std::initializer_list<double> list) {}
 
-	euclidean_vector::euclidean_vector(euclidean_vector const& v) {}
+	euclidean_vector::euclidean_vector(euclidean_vector const& v)
+	: magnitude_(std::unique_ptr<double[]>{v.magnitude_})
+	, dimension_(v.dimension_) {}
 
 	euclidean_vector::euclidean_vector(euclidean_vector&& v) noexcept
 	: magnitude_(std::move(v.magnitude_))
@@ -31,7 +33,10 @@ namespace comp6771 {
 		return *this;
 	}
 
-	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {}
+	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {
+		*this = euclidean_vector(std::move(v));
+		return *this;
+	}
 
 	auto euclidean_vector::operator[](euclidean_vector const& v) noexcept -> euclidean_vector& {}
 
