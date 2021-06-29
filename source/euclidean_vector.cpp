@@ -20,32 +20,56 @@ namespace comp6771 {
 
 	euclidean_vector::euclidean_vector(std::initializer_list<double> list) {}
 
-	euclidean_vector::euclidean_vector(euclidean_vector const& vec) {}
+	euclidean_vector::euclidean_vector(euclidean_vector const& v) {}
 
-	euclidean_vector::euclidean_vector(euclidean_vector&& vec) noexcept
-	: magnitude_(std::move(vec.magnitude_))
-	, dimension_(vec.dimension_) {}
+	euclidean_vector::euclidean_vector(euclidean_vector&& v) noexcept
+	: magnitude_(std::move(v.magnitude_))
+	, dimension_(v.dimension_) {}
 
-	auto euclidean_vector::operator=(euclidean_vector const& vec) -> euclidean_vector& {}
-	auto euclidean_vector::operator=(euclidean_vector&& vec) noexcept -> euclidean_vector& {}
-	auto euclidean_vector::operator[](euclidean_vector const& vec) noexcept -> euclidean_vector& {}
-	auto euclidean_vector::operator[](euclidean_vector& vec) -> euclidean_vector& {}
+	auto euclidean_vector::operator=(euclidean_vector const& v) -> euclidean_vector& {}
+	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {}
+	auto euclidean_vector::operator[](euclidean_vector const& v) noexcept -> euclidean_vector& {}
+	auto euclidean_vector::operator[](euclidean_vector& v) -> euclidean_vector& {}
 	auto euclidean_vector::operator+() -> euclidean_vector {}
 	auto euclidean_vector::operator-() -> euclidean_vector {}
-	auto euclidean_vector::operator+=(euclidean_vector const&) -> euclidean_vector& {}
-	auto euclidean_vector::operator-=(euclidean_vector const&) -> euclidean_vector& {}
-	auto euclidean_vector::operator*=(double) -> euclidean_vector& {}
-	auto euclidean_vector::operator/=(double) -> euclidean_vector& {}
-	euclidean_vector::operator std::vector<double>() {}
-	euclidean_vector::operator std::list<double>() {}
+
+	auto euclidean_vector::operator+=(euclidean_vector const& v) -> euclidean_vector& {
+		if (this->dimensions() != v.dimensions()) {
+			throw euclidean_vector_error("Dimensions of LHS(X) and RHS(Y) do not match");
+		}
+	}
+
+	auto euclidean_vector::operator-=(euclidean_vector const& v) -> euclidean_vector& {
+		if (this->dimensions() != v.dimensions()) {
+			throw euclidean_vector_error("Dimensions of LHS(X) and RHS(Y) do not match");
+		}
+	}
+
+	auto euclidean_vector::operator*=(double) noexcept -> euclidean_vector& {}
+
+	auto euclidean_vector::operator/=(double divisor) -> euclidean_vector& {
+		if (divisor == 0.0) {
+			throw euclidean_vector_error("Invalid vector division by 0");
+		}
+	}
+
+	euclidean_vector::operator std::vector<double>() noexcept {}
+	euclidean_vector::operator std::list<double>() noexcept {}
 
 	[[nodiscard]] auto euclidean_vector::at(int component) const -> double {
+		if (component < 0 || component >= this->dimensions_) {
+			throw euclidean_vector_error("Index X is not valid for this euclidean_vector object");
+		}
 		return this->magnitude_.get(component);
 	}
 
-	auto euclidean_vector::at(int component) -> double& {}
+	auto euclidean_vector::at(int component) -> double& {
+		if (component < 0 || component >= this->dimensions_) {
+			throw euclidean_vector_error("Index X is not valid for this euclidean_vector object");
+		}
+	}
 
-	[[nodiscard]] auto euclidean_vector::dimensions() const -> int {
+	[[nodiscard]] auto euclidean_vector::dimensions() const noexcept -> int {
 		return static_cast<int>(this->dimension_);
 	}
 
@@ -70,7 +94,7 @@ namespace comp6771 {
 	}
 
 	auto dot(euclidean_vector const& x, euclidean_vector const& y) -> double {
-		if (x.dimensions() != y.dimensdimensions()) {
+		if (x.dimensions() != y.dimensions()) {
 			throw euclidean_vector_error("Dimensions of LHS(X) and RHS(Y) do not match");
 		}
 
