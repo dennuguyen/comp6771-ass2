@@ -127,9 +127,26 @@ TEST_CASE("Constructor taking a dimension and value should instantiate correctly
 }
 
 TEST_CASE("Constructor taking start and end iterators should instantiate correctly") {
-	SECTION("") {
-		auto vec = std::vector<double>(513.0, 41.385, 1843.2348);
+	SECTION("Zero vector") {
+		auto vec = std::vector<double>{};
+		auto euc_vec = comp6771::euclidean_vector(vec.begin(), vec.end());
+		CHECK(euc_vec.dimensions() == 0);
 	}
+
+	SECTION("Full range of small vector") {
+		auto vec = std::vector<double>{513.0, 41.385, 1843.2348};
+		auto euc_vec = comp6771::euclidean_vector(vec.begin(), vec.end());
+		CHECK(euc_vec.at(0) == 513.0);
+		CHECK(euc_vec.at(1) == 41.385);
+		CHECK(euc_vec.at(2) == 1843.2348);
+		CHECK(euc_vec.dimensions() == 3);
+	}
+
+	SECTION("Subset range including beginning and excluding end of vector") {}
+
+	SECTION("Subset range excluding beginning and including end of vector") {}
+
+	SECTION("Subset range excluding beginning and excluding end of vector") {}
 }
 
 TEST_CASE("Constructor taking an initialiser list should instantiate correctly") {}
