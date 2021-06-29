@@ -137,13 +137,25 @@ namespace comp6771 {
 
 		// For scalar multiplication, e.g. [1 2] * 3 = 3 * [1 2] = [3 6]. Hint: you'll need two
 		// operators, as the scalar can be either side of the vector.
-		friend auto operator*(euclidean_vector const&, double) noexcept -> euclidean_vector {}
+		friend auto operator*(euclidean_vector const& v, double multiplier) noexcept
+		   -> euclidean_vector {
+			auto new_v = v;
+			std::for_each (new_v.magnitude_.get(),
+			               new_v.magnitude_.get() + new_v.dimension_,
+			               [&multiplier](auto& i) { i *= multiplier; });
+			return new_v;
+		}
 
 		// For scalar division, e.g. [3 6] / 2 = [1.5 3].
 		friend auto operator/(euclidean_vector const& v, double divisor) -> euclidean_vector {
 			if (divisor == 0.0) {
 				throw euclidean_vector_error("Invalid vector division by 0");
 			}
+			auto new_v = v;
+			std::for_each (new_v.magnitude_.get(),
+			               new_v.magnitude_.get() + new_v.dimension_,
+			               [&divisor](auto& i) { i /= divisor; });
+			return new_v;
 		}
 
 		// Prints out the magnitude in each dimension of the Euclidean vector (surrounded by [ and ]),
