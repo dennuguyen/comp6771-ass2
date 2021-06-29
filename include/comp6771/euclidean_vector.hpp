@@ -66,14 +66,7 @@ namespace comp6771 {
 		auto operator+() -> euclidean_vector;
 
 		// Returns a copy of the current object, where each scalar value has its sign negated.
-		auto operator-() noexcept -> euclidean_vector {
-			auto v = euclidean_vector(static_cast<int>(dimension_));
-			std::copy(magnitude_.get(), magnitude_.get() + dimension_, v.magnitude_.get());
-			std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.dimension_, [](auto& i) {
-				i = -i;
-			});
-			return v;
-		}
+		auto operator-() noexcept -> euclidean_vector;
 
 		// For adding vectors of the same dimension.
 		auto operator+=(euclidean_vector const&) -> euclidean_vector&;

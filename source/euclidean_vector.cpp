@@ -30,11 +30,21 @@ namespace comp6771 {
 		auto new_v = euclidean_vector();
 		return *this;
 	}
+
 	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {}
+
 	auto euclidean_vector::operator[](euclidean_vector const& v) noexcept -> euclidean_vector& {}
+
 	auto euclidean_vector::operator[](euclidean_vector& v) -> euclidean_vector& {}
+
 	auto euclidean_vector::operator+() -> euclidean_vector {}
-	auto euclidean_vector::operator-() -> euclidean_vector {}
+
+	auto euclidean_vector::operator-() noexcept -> euclidean_vector {
+		auto v = euclidean_vector(static_cast<int>(dimension_));
+		std::copy(magnitude_.get(), magnitude_.get() + dimension_, v.magnitude_.get());
+		std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.dimension_, [](auto& i) { i = -i; });
+		return v;
+	}
 
 	auto euclidean_vector::operator+=(euclidean_vector const& v) -> euclidean_vector& {
 		if (dimensions() != v.dimensions()) {
@@ -67,6 +77,7 @@ namespace comp6771 {
 	}
 
 	euclidean_vector::operator std::vector<double>() noexcept {}
+
 	euclidean_vector::operator std::list<double>() noexcept {}
 
 	[[nodiscard]] auto euclidean_vector::at(int component) const -> double {
