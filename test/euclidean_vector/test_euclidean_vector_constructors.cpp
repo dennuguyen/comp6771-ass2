@@ -76,6 +76,21 @@ TEST_CASE("Constructor taking a dimension should instantiate correctly") {
 		CHECK(vec.at(1) == 0.0);
 		CHECK(vec.dimensions() == 2);
 	}
+
+	SECTION("Large dimension") {
+		auto vec = comp6771::euclidean_vector(10);
+		CHECK(vec.at(0) == 0.0);
+		CHECK(vec.at(1) == 0.0);
+		CHECK(vec.at(2) == 0.0);
+		CHECK(vec.at(3) == 0.0);
+		CHECK(vec.at(4) == 0.0);
+		CHECK(vec.at(5) == 0.0);
+		CHECK(vec.at(6) == 0.0);
+		CHECK(vec.at(7) == 0.0);
+		CHECK(vec.at(8) == 0.0);
+		CHECK(vec.at(9) == 0.0);
+		CHECK(vec.dimensions() == 10);
+	}
 }
 
 TEST_CASE("Constructor taking a dimension and value should instantiate correctly") {
@@ -90,11 +105,35 @@ TEST_CASE("Constructor taking a dimension and value should instantiate correctly
 		CHECK(vec.dimensions() == 1);
 	}
 
-	SECTION("2 dimensions") {
-		auto vec = comp6771::euclidean_vector(2);
+	SECTION("2 dimensions and 0 value") {
+		auto vec = comp6771::euclidean_vector(2, 0.0);
 		CHECK(vec.at(0) == 0.0);
 		CHECK(vec.at(1) == 0.0);
 		CHECK(vec.dimensions() == 2);
+	}
+
+	SECTION("2 dimensions and positive value") {
+		auto vec = comp6771::euclidean_vector(2, 4.2);
+		CHECK(vec.at(0) == 4.2);
+		CHECK(vec.at(1) == 4.2);
+		CHECK(vec.dimensions() == 2);
+	}
+
+	SECTION("2 dimensions and negative value") {
+		auto vec = comp6771::euclidean_vector(2, -5.6);
+		CHECK(vec.at(0) == -5.6);
+		CHECK(vec.at(1) == -5.6);
+		CHECK(vec.dimensions() == 2);
+	}
+
+	SECTION("Larger dimension and some value") {
+		auto vec = comp6771::euclidean_vector(5, 48.523);
+		CHECK(vec.at(0) == 48.523);
+		CHECK(vec.at(1) == 48.523);
+		CHECK(vec.at(2) == 48.523);
+		CHECK(vec.at(3) == 48.523);
+		CHECK(vec.at(4) == 48.523);
+		CHECK(vec.dimensions() == 5);
 	}
 }
 
