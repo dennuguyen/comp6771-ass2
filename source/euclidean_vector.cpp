@@ -164,14 +164,11 @@ namespace comp6771 {
 			throw euclidean_vector_error("euclidean_vector with no dimensions does not have a unit "
 			                             "vector");
 		}
-
 		auto unit_vector = euclidean_vector(v.dimensions(), 1.0);
-
 		if (euclidean_norm(unit_vector) == 0) {
 			throw euclidean_vector_error("euclidean_vector with zero euclidean normal does not have a "
 			                             "unit vector");
 		}
-
 		return unit_vector;
 	}
 
@@ -181,7 +178,6 @@ namespace comp6771 {
 			                  + std::to_string(y.dimensions()) + ") do not match";
 			throw euclidean_vector_error(what);
 		}
-
 		auto dot_product_value = 0.0;
 		for (auto i = 0; i < x.dimensions(); i++) {
 			dot_product_value += (x.at(i) * y.at(i));
