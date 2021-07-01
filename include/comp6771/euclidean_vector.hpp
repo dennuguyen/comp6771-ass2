@@ -51,7 +51,7 @@ namespace comp6771 {
 		~euclidean_vector() = default;
 
 		// A copy assignment operator overload.
-		auto operator=(euclidean_vector const&) -> euclidean_vector&;
+		auto operator=(euclidean_vector const&) noexcept -> euclidean_vector&;
 
 		// A move assignment operator.
 		auto operator=(euclidean_vector&&) noexcept -> euclidean_vector&;
@@ -59,14 +59,14 @@ namespace comp6771 {
 		// Allows to get and set the value in a given dimension of the Euclidean vector. Hint: you may
 		// need two overloadeds to achieve this requirement. Note: It's a requirement you use asserts
 		// to ensure the index passed is valid.
-		auto operator[](euclidean_vector const&) noexcept -> euclidean_vector&;
-		auto operator[](euclidean_vector&) -> euclidean_vector&;
+		auto operator[](int component) const noexcept -> double;
+		auto operator[](int component) noexcept -> double&;
 
 		// Returns a copy of the current object.
-		auto operator+() -> euclidean_vector;
+		auto operator+() const noexcept -> euclidean_vector;
 
 		// Returns a copy of the current object, where each scalar value has its sign negated.
-		auto operator-() noexcept -> euclidean_vector;
+		auto operator-() const noexcept -> euclidean_vector;
 
 		// For adding vectors of the same dimension.
 		auto operator+=(euclidean_vector const&) -> euclidean_vector&;
@@ -75,16 +75,16 @@ namespace comp6771 {
 		auto operator-=(euclidean_vector const&) -> euclidean_vector&;
 
 		// For scalar multiplication, e.g. [1 2] * 3 = [3 6].
-		auto operator*=(double) -> euclidean_vector&;
+		auto operator*=(double) noexcept -> euclidean_vector&;
 
 		// For scalar division, e.g. [3 6] / 2 = [1.5 3].
 		auto operator/=(double) -> euclidean_vector&;
 
 		// Operators for type casting to a std::vector.
-		explicit operator std::vector<double>();
+		explicit operator std::vector<double>() const noexcept;
 
 		// Operators for type casting to a std::list.
-		explicit operator std::list<double>();
+		explicit operator std::list<double>() const noexcept;
 
 		// Returns the value of the magnitude in the dimension given as the function parameter.
 		[[nodiscard]] auto at(int) const -> double;
@@ -93,7 +93,7 @@ namespace comp6771 {
 		auto at(int) -> double&;
 
 		// Return the number of dimensions in a particular euclidean_vector.
-		[[nodiscard]] auto dimensions() const -> int;
+		[[nodiscard]] auto dimensions() const noexcept -> int;
 
 		// True if the two vectors are equal in the number of dimensions and the magnitude in each
 		// dimension is equal.
@@ -101,14 +101,7 @@ namespace comp6771 {
 			if (x.dimensions() != y.dimensions()) {
 				return false;
 			}
-
-			for (auto i = 0; i < x.dimensions(); i++) {
-				if (x[i] != y[i]) {
-					return false;
-				}
-			}
-
-			return true;
+			return std::equal(x.magnitude_.get(), x.magnitude_.get() + x.size_, y.magnitude_.get());
 		}
 
 		// True if the two vectors are not equal in the number of dimensions or the magnitude in each
@@ -121,8 +114,17 @@ namespace comp6771 {
 		friend auto operator+(euclidean_vector const& x, euclidean_vector const& y)
 		   -> euclidean_vector {
 			if (x.dimensions() != y.dimensions()) {
-				throw euclidean_vector_error("Dimensions of LHS(X) and RHS(Y) do not match");
+				auto const what = "Dimensions of LHS(" + std::to_string(x.dimensions()) + ") and RHS("
+				                  + std::to_string(y.dimensions()) + ") do not match";
+				throw euclidean_vector_error(what);
 			}
+			auto z = euclidean_vector(x.dimensions());
+			std::transform(x.magnitude_.get(),
+			               x.magnitude_.get() + x.size_,
+			               y.magnitude_.get(),
+			               z.magnitude_.get(),
+			               [](auto const& lhs, auto const& rhs) { return lhs + rhs; });
+			return z;
 		}
 
 		// For substracting vectors of the same dimension.
@@ -133,17 +135,24 @@ namespace comp6771 {
 				                  + std::to_string(y.dimensions()) + ") do not match";
 				throw euclidean_vector_error(what);
 			}
+			auto z = euclidean_vector(x.dimensions());
+			std::transform(x.magnitude_.get(),
+			               x.magnitude_.get() + x.size_,
+			               y.magnitude_.get(),
+			               z.magnitude_.get(),
+			               [](auto const& lhs, auto const& rhs) { return lhs - rhs; });
+			return z;
 		}
 
 		// For scalar multiplication, e.g. [1 2] * 3 = 3 * [1 2] = [3 6]. Hint: you'll need two
 		// operators, as the scalar can be either side of the vector.
 		friend auto operator*(euclidean_vector const& v, double multiplier) noexcept
 		   -> euclidean_vector {
-			auto new_v = v;
-			std::for_each (new_v.magnitude_.get(),
-			               new_v.magnitude_.get() + new_v.dimension_,
-			               [&multiplier](auto& i) { i *= multiplier; });
-			return new_v;
+			auto w = v;
+			std::for_each (w.magnitude_.get(), w.magnitude_.get() + w.size_, [&multiplier](auto& i) {
+				i *= multiplier;
+			});
+			return w;
 		}
 
 		// For scalar division, e.g. [3 6] / 2 = [1.5 3].
@@ -151,11 +160,11 @@ namespace comp6771 {
 			if (divisor == 0.0) {
 				throw euclidean_vector_error("Invalid vector division by 0");
 			}
-			auto new_v = v;
-			std::for_each (new_v.magnitude_.get(),
-			               new_v.magnitude_.get() + new_v.dimension_,
-			               [&divisor](auto& i) { i /= divisor; });
-			return new_v;
+			auto w = v;
+			std::for_each (w.magnitude_.get(), w.magnitude_.get() + w.size_, [&divisor](auto& i) {
+				i /= divisor;
+			});
+			return w;
 		}
 
 		// Prints out the magnitude in each dimension of the Euclidean vector (surrounded by [ and ]),
@@ -163,7 +172,7 @@ namespace comp6771 {
 		// double << operator.
 		friend auto operator<<(std::ostream& os, euclidean_vector const& v) noexcept -> std::ostream& {
 			auto str = std::string();
-			std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.dimension_, [&str](auto& i) {
+			std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.size_, [&str](auto& i) {
 				str += std::to_string(i);
 				str += " ";
 			});
@@ -173,17 +182,17 @@ namespace comp6771 {
 		}
 
 	private:
+		std::size_t size_; // Dimension of vector.
 		// ass2 spec requires we use double[]
 		// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 		std::unique_ptr<double[]> magnitude_; // Magnitudes of each dimension.
-		std::size_t dimension_; // Dimension of vector.
 	};
 
 	// Returns the Euclidean norm of the vector as a double. The Euclidean norm is the square root
 	// of the sum of the squares of the magnitudes in each dimension. E.g, for the vector [1 2 3]
 	// the Euclidean norm is sqrt(1*1 + 2*2 + 3*3) = 3.74. If v.dimensions() == 0, the result is
 	// 0.
-	auto euclidean_norm(euclidean_vector const& v) -> double;
+	auto euclidean_norm(euclidean_vector const& v) noexcept -> double;
 
 	// Returns a Euclidean vector that is the unit vector of v. The magnitude for each dimension
 	// in the unit vector is the original vector's magnitude divided by the Euclidean norm.

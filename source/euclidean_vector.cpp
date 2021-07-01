@@ -2,77 +2,110 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 #include "comp6771/euclidean_vector.hpp"
+#include <cassert>
 #include <cmath>
+#include <iterator>
 #include <memory>
 
 namespace comp6771 {
-	euclidean_vector::euclidean_vector() {}
+	euclidean_vector::euclidean_vector()
+	: euclidean_vector(1, 0.0) {}
 
-	euclidean_vector::euclidean_vector(int dimension)
-	: euclidean_vector(dimension, 0.0) {}
+	euclidean_vector::euclidean_vector(int size)
+	: euclidean_vector(size, 0.0) {}
 
-	euclidean_vector::euclidean_vector(int dimension, double value)
-	: magnitude_(std::make_unique<double[]>(static_cast<std::size_t>(dimension)))
-	, dimension_(static_cast<std::size_t>(dimension)) {}
+	euclidean_vector::euclidean_vector(int size, double value)
+	: size_(static_cast<std::size_t>(size))
+	, magnitude_(std::make_unique<double[]>(size_)) {
+		std::fill(magnitude_.get(), magnitude_.get() + size_, value);
+	}
 
-	euclidean_vector::euclidean_vector(std::vector<double>::const_iterator start,
-	                                   std::vector<double>::const_iterator end) {}
+	euclidean_vector::euclidean_vector(std::vector<double>::const_iterator first,
+	                                   std::vector<double>::const_iterator last)
+	: size_(static_cast<std::size_t>(std::distance(first, last))) {
+		std::copy(first, last, magnitude_.get());
+	}
 
-	euclidean_vector::euclidean_vector(std::initializer_list<double> list) {}
+	// TODO:
+	euclidean_vector::euclidean_vector(std::initializer_list<double> list)
+	: size_(list.size())
+	, magnitude_(std::make_unique<double[]>(list)) {}
 
 	euclidean_vector::euclidean_vector(euclidean_vector const& v)
-	: magnitude_(std::unique_ptr<double[]>{v.magnitude_})
-	, dimension_(v.dimension_) {}
+	: size_(v.size_)
+	, magnitude_(std::make_unique<double[]>(v.size_)) {
+		std::copy(v.magnitude_.get(), v.magnitude_.get() + size_, magnitude_.get());
+	}
 
 	euclidean_vector::euclidean_vector(euclidean_vector&& v) noexcept
-	: magnitude_(std::move(v.magnitude_))
-	, dimension_(v.dimension_) {}
+	: size_(v.size_)
+	, magnitude_(std::move(v.magnitude_)) {}
 
-	auto euclidean_vector::operator=(euclidean_vector const& v) -> euclidean_vector& {
+	auto euclidean_vector::operator=(euclidean_vector const& v) noexcept -> euclidean_vector& {
 		*this = euclidean_vector(v);
 		return *this;
 	}
 
 	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {
-		*this = euclidean_vector(std::move(v));
+		*this = std::move(v);
 		return *this;
 	}
 
-	auto euclidean_vector::operator[](euclidean_vector const& v) noexcept -> euclidean_vector& {}
+	auto euclidean_vector::operator[](int component) const noexcept -> double {
+		assert(0 <= component && component < dimensions());
+		return magnitude_[static_cast<std::size_t>(component)];
+	}
 
-	auto euclidean_vector::operator[](euclidean_vector& v) -> euclidean_vector& {}
+	auto euclidean_vector::operator[](int component) noexcept -> double& {
+		assert(0 <= component && component < dimensions());
+		return magnitude_[static_cast<std::size_t>(component)];
+	}
 
-	auto euclidean_vector::operator+() -> euclidean_vector {
+	auto euclidean_vector::operator+() const noexcept -> euclidean_vector {
 		auto v = *this;
 		return v;
 	}
 
-	auto euclidean_vector::operator-() noexcept -> euclidean_vector {
+	auto euclidean_vector::operator-() const noexcept -> euclidean_vector {
 		auto v = *this;
-		std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.dimension_, [](auto& i) { i = -i; });
+		std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.size_, [](auto& component) {
+			component = -component;
+		});
 		return v;
 	}
 
-	auto euclidean_vector::operator+=(euclidean_vector const& v) -> euclidean_vector& {
-		if (dimensions() != v.dimensions()) {
+	auto euclidean_vector::operator+=(euclidean_vector const& addend) -> euclidean_vector& {
+		if (dimensions() != addend.dimensions()) {
 			auto const what = "Dimensions of LHS(" + std::to_string(dimensions()) + ") and RHS("
-			                  + std::to_string(v.dimensions()) + ") do not match";
+			                  + std::to_string(addend.dimensions()) + ") do not match";
 			throw euclidean_vector_error(what);
 		}
-
+		std::transform(magnitude_.get(),
+		               magnitude_.get() + size_,
+		               addend.magnitude_.get(),
+		               magnitude_.get(),
+		               [](auto const& lhs, auto const& rhs) { return lhs + rhs; });
 		return *this;
 	}
 
-	auto euclidean_vector::operator-=(euclidean_vector const& v) -> euclidean_vector& {
-		if (dimensions() != v.dimensions()) {
+	auto euclidean_vector::operator-=(euclidean_vector const& subtrahend) -> euclidean_vector& {
+		if (dimensions() != subtrahend.dimensions()) {
 			auto const what = "Dimensions of LHS(" + std::to_string(dimensions()) + ") and RHS("
-			                  + std::to_string(v.dimensions()) + ") do not match";
+			                  + std::to_string(subtrahend.dimensions()) + ") do not match";
 			throw euclidean_vector_error(what);
 		}
+		std::transform(magnitude_.get(),
+		               magnitude_.get() + size_,
+		               subtrahend.magnitude_.get(),
+		               magnitude_.get(),
+		               [](auto const& lhs, auto const& rhs) { return lhs - rhs; });
 		return *this;
 	}
 
-	auto euclidean_vector::operator*=(double) noexcept -> euclidean_vector& {
+	auto euclidean_vector::operator*=(double multiplier) noexcept -> euclidean_vector& {
+		std::for_each (magnitude_.get(), magnitude_.get() + size_, [multiplier](auto& component) {
+			component *= multiplier;
+		});
 		return *this;
 	}
 
@@ -80,32 +113,44 @@ namespace comp6771 {
 		if (divisor == 0.0) {
 			throw euclidean_vector_error("Invalid vector division by 0");
 		}
+		std::for_each (magnitude_.get(), magnitude_.get() + size_, [divisor](auto& component) {
+			component /= divisor;
+		});
 		return *this;
 	}
 
-	euclidean_vector::operator std::vector<double>() noexcept {}
+	euclidean_vector::operator std::vector<double>() const noexcept {
+		auto v = std::vector<double>(size_);
+		std::copy(magnitude_.get(), magnitude_.get() + size_, v.begin());
+		return v;
+	}
 
-	euclidean_vector::operator std::list<double>() noexcept {}
+	euclidean_vector::operator std::list<double>() const noexcept {
+		auto l = std::list<double>(size_);
+		std::copy(magnitude_.get(), magnitude_.get() + size_, l.begin());
+		return l;
+	}
 
 	[[nodiscard]] auto euclidean_vector::at(int component) const -> double {
-		if (component < 0 || component >= dimensions_) {
+		if (component < 0 || component >= dimensions()) {
 			auto const what =
 			   "Index " + std::to_string(component) + " is not valid for this euclidean_vector object";
 			throw euclidean_vector_error(what);
 		}
-		return magnitude_.get(component);
+		return magnitude_[static_cast<std::size_t>(component)];
 	}
 
 	auto euclidean_vector::at(int component) -> double& {
-		if (component < 0 || component >= dimensions_) {
+		if (component < 0 || component >= dimensions()) {
 			auto const what =
 			   "Index " + std::to_string(component) + " is not valid for this euclidean_vector object";
 			throw euclidean_vector_error(what);
 		}
+		return magnitude_[static_cast<std::size_t>(component)];
 	}
 
 	[[nodiscard]] auto euclidean_vector::dimensions() const noexcept -> int {
-		return static_cast<int>(dimension_);
+		return static_cast<int>(size_);
 	}
 
 	auto euclidean_norm(euclidean_vector const& v) noexcept -> double {
@@ -120,7 +165,7 @@ namespace comp6771 {
 
 		auto unit_vector = euclidean_vector(v.dimensions(), 1.0);
 
-		if (unit_vector == 0) {
+		if (euclidean_norm(unit_vector) == 0) {
 			throw euclidean_vector_error("euclidean_vector with zero euclidean normal does not have a "
 			                             "unit vector");
 		}
