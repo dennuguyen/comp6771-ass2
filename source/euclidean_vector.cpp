@@ -22,18 +22,20 @@ namespace comp6771 {
 
 	euclidean_vector::euclidean_vector(std::vector<double>::const_iterator first,
 	                                   std::vector<double>::const_iterator last)
-	: size_(static_cast<std::size_t>(std::distance(first, last))) {
+	: size_(static_cast<std::size_t>(std::distance(first, last)))
+	, magnitude_(std::make_unique<double[]>(size_)) {
 		std::copy(first, last, magnitude_.get());
 	}
 
-	// TODO:
 	euclidean_vector::euclidean_vector(std::initializer_list<double> list)
 	: size_(list.size())
-	, magnitude_(std::make_unique<double[]>(list)) {}
+	, magnitude_(std::make_unique<double[]>(size_)) {
+		std::copy(list.begin(), list.end(), magnitude_.get());
+	}
 
 	euclidean_vector::euclidean_vector(euclidean_vector const& v)
 	: size_(v.size_)
-	, magnitude_(std::make_unique<double[]>(v.size_)) {
+	, magnitude_(std::make_unique<double[]>(size_)) {
 		std::copy(v.magnitude_.get(), v.magnitude_.get() + size_, magnitude_.get());
 	}
 
@@ -47,7 +49,7 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {
-		*this = std::move(v);
+		std::swap(*this, v);
 		return *this;
 	}
 
