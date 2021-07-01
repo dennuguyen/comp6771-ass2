@@ -19,7 +19,6 @@ namespace comp6771 {
 	class euclidean_vector {
 	public:
 		// A constructor that generates a euclidean vector with a dimension of 1 and magnitude of 0.0.
-		// You can assume the integer input will always be non-negative.
 		euclidean_vector();
 
 		// A constructor that takes the number of dimensions (as a int) but no magnitudes, sets the
