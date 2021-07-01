@@ -8,32 +8,32 @@
 #include <memory>
 
 namespace comp6771 {
-	euclidean_vector::euclidean_vector()
+	euclidean_vector::euclidean_vector() noexcept
 	: euclidean_vector(1, 0.0) {}
 
-	euclidean_vector::euclidean_vector(int size)
+	euclidean_vector::euclidean_vector(int size) noexcept
 	: euclidean_vector(size, 0.0) {}
 
-	euclidean_vector::euclidean_vector(int size, double value)
+	euclidean_vector::euclidean_vector(int size, double value) noexcept
 	: size_(static_cast<std::size_t>(size))
 	, magnitude_(std::make_unique<double[]>(size_)) {
 		std::fill(magnitude_.get(), magnitude_.get() + size_, value);
 	}
 
 	euclidean_vector::euclidean_vector(std::vector<double>::const_iterator first,
-	                                   std::vector<double>::const_iterator last)
+	                                   std::vector<double>::const_iterator last) noexcept
 	: size_(static_cast<std::size_t>(std::distance(first, last)))
 	, magnitude_(std::make_unique<double[]>(size_)) {
 		std::copy(first, last, magnitude_.get());
 	}
 
-	euclidean_vector::euclidean_vector(std::initializer_list<double> list)
+	euclidean_vector::euclidean_vector(std::initializer_list<double> list) noexcept
 	: size_(list.size())
 	, magnitude_(std::make_unique<double[]>(size_)) {
 		std::copy(list.begin(), list.end(), magnitude_.get());
 	}
 
-	euclidean_vector::euclidean_vector(euclidean_vector const& v)
+	euclidean_vector::euclidean_vector(euclidean_vector const& v) noexcept
 	: size_(v.size_)
 	, magnitude_(std::make_unique<double[]>(size_)) {
 		std::copy(v.magnitude_.get(), v.magnitude_.get() + size_, magnitude_.get());
