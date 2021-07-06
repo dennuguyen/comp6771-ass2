@@ -4,8 +4,10 @@
 #include "comp6771/euclidean_vector.hpp"
 #include <cassert>
 #include <cmath>
+#include <functional>
 #include <iterator>
 #include <memory>
+#include <stdexcept>
 
 namespace comp6771 {
 	euclidean_vector::euclidean_vector() noexcept
@@ -44,12 +46,14 @@ namespace comp6771 {
 	, magnitude_(std::exchange(v.magnitude_, nullptr)) {}
 
 	auto euclidean_vector::operator=(euclidean_vector const& v) noexcept -> euclidean_vector& {
-		*this = euclidean_vector(v);
+		// *this = euclidean_vector(v);
+		(void)v;
 		return *this;
 	}
 
 	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {
-		std::swap(*this, v);
+		// std::swap(*this, v);
+		(void)v;
 		return *this;
 	}
 
@@ -69,10 +73,8 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator-() const noexcept -> euclidean_vector {
-		auto v = *this;
-		std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.size_, [](auto& component) {
-			component = -component;
-		});
+		auto v = euclidean_vector(static_cast<int>(size_));
+		std::transform(magnitude_.get(), magnitude_.get() + size_, v.magnitude_.get(), std::negate<>());
 		return v;
 	}
 
