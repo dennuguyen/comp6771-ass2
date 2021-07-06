@@ -15,3 +15,9 @@ cxx_test(
    FILENAME "test_euclidean_vector_negation.cpp"
    LINK euclidean_vector
 )
+
+cxx_test(
+   TARGET test_euclidean_vector_unary_plus
+   FILENAME "test_euclidean_vector_unary_plus.cpp"
+   LINK euclidean_vector
+)
