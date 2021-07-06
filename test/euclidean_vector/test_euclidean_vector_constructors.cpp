@@ -18,7 +18,8 @@
 // 	- test section: various cases which will give an output to show the property to be true for a
 // condition we are testing.
 //
-// I use this particular hierarchy because it neatly separates properties, conditions, and use-cases.
+// I use this particular hierarchy because it neatly separates properties, conditions, and
+// use-cases.
 //
 // The TEST_CASE names are also descriptive to give an idea of what the test case is for and follows
 // a "something should something" format. Therefore TEST_CASE is not commented as it will be
@@ -217,6 +218,27 @@ TEST_CASE("Copy constructor should instantiate correctly") {
 		CHECK(euc_vec2.at(1) == Approx(6.1));
 		CHECK(euc_vec2.at(2) == Approx(7.184181));
 		CHECK(euc_vec2.at(3) == Approx(5.51));
+		CHECK(euc_vec2.dimensions() == 4);
+	}
+}
+
+TEST_CASE("Writes to copy should not write to copied") {
+	SECTION("Copy euclidean vector and write to it") {
+		auto euc_vec1 = comp6771::euclidean_vector({3.4, 6.1, 7.184181, 5.51});
+		auto euc_vec2 = comp6771::euclidean_vector(euc_vec1);
+		euc_vec2.at(2) = 31.0;
+		euc_vec2.at(3) = 51.312;
+
+		CHECK(euc_vec1.at(0) == Approx(3.4));
+		CHECK(euc_vec1.at(1) == Approx(6.1));
+		CHECK(euc_vec1.at(2) == Approx(7.184181));
+		CHECK(euc_vec1.at(3) == Approx(5.51));
+		CHECK(euc_vec1.dimensions() == 4);
+
+		CHECK(euc_vec2.at(0) == Approx(3.4));
+		CHECK(euc_vec2.at(1) == Approx(6.1));
+		CHECK(euc_vec2.at(2) == Approx(31.0));
+		CHECK(euc_vec2.at(3) == Approx(51.312));
 		CHECK(euc_vec2.dimensions() == 4);
 	}
 }
