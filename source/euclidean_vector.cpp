@@ -40,10 +40,8 @@ namespace comp6771 {
 	}
 
 	euclidean_vector::euclidean_vector(euclidean_vector&& v) noexcept
-	: size_(v.size_)
-	, magnitude_(std::move(v.magnitude_)) {
-		v.size_ = 0; // Leave moved-from object in a state with 0 dimensions.
-	}
+	: size_(std::exchange(v.size_, 0))
+	, magnitude_(std::exchange(v.magnitude_, nullptr)) {}
 
 	auto euclidean_vector::operator=(euclidean_vector const& v) noexcept -> euclidean_vector& {
 		*this = euclidean_vector(v);
