@@ -43,7 +43,7 @@
 TEST_CASE("Basic constructor should instantiate correctly") {
 	SECTION("Default values") {
 		auto euc_vec = comp6771::euclidean_vector();
-		CHECK(euc_vec.at(0) == 0.0);
+		CHECK(euc_vec.at(0) == Approx(0.0));
 		CHECK(euc_vec.dimensions() == 1);
 	}
 }
@@ -55,29 +55,29 @@ TEST_CASE("Constructor taking a dimension should instantiate correctly") {
 
 	SECTION("1 dimension") {
 		auto euc_vec = comp6771::euclidean_vector(1);
-		CHECK(euc_vec.at(0) == 0.0);
+		CHECK(euc_vec.at(0) == Approx(0.0));
 		CHECK(euc_vec.dimensions() == 1);
 	}
 
 	SECTION("2 dimensions") {
 		auto euc_vec = comp6771::euclidean_vector(2);
-		CHECK(euc_vec.at(0) == 0.0);
-		CHECK(euc_vec.at(1) == 0.0);
+		CHECK(euc_vec.at(0) == Approx(0.0));
+		CHECK(euc_vec.at(1) == Approx(0.0));
 		CHECK(euc_vec.dimensions() == 2);
 	}
 
 	SECTION("Large dimension") {
 		auto euc_vec = comp6771::euclidean_vector(10);
-		CHECK(euc_vec.at(0) == 0.0);
-		CHECK(euc_vec.at(1) == 0.0);
-		CHECK(euc_vec.at(2) == 0.0);
-		CHECK(euc_vec.at(3) == 0.0);
-		CHECK(euc_vec.at(4) == 0.0);
-		CHECK(euc_vec.at(5) == 0.0);
-		CHECK(euc_vec.at(6) == 0.0);
-		CHECK(euc_vec.at(7) == 0.0);
-		CHECK(euc_vec.at(8) == 0.0);
-		CHECK(euc_vec.at(9) == 0.0);
+		CHECK(euc_vec.at(0) == Approx(0.0));
+		CHECK(euc_vec.at(1) == Approx(0.0));
+		CHECK(euc_vec.at(2) == Approx(0.0));
+		CHECK(euc_vec.at(3) == Approx(0.0));
+		CHECK(euc_vec.at(4) == Approx(0.0));
+		CHECK(euc_vec.at(5) == Approx(0.0));
+		CHECK(euc_vec.at(6) == Approx(0.0));
+		CHECK(euc_vec.at(7) == Approx(0.0));
+		CHECK(euc_vec.at(8) == Approx(0.0));
+		CHECK(euc_vec.at(9) == Approx(0.0));
 		CHECK(euc_vec.dimensions() == 10);
 	}
 }
@@ -90,38 +90,38 @@ TEST_CASE("Constructor taking a dimension and value should instantiate correctly
 
 	SECTION("1 dimension and 0 value") {
 		auto euc_vec = comp6771::euclidean_vector(1, 0.0);
-		CHECK(euc_vec.at(0) == 0.0);
+		CHECK(euc_vec.at(0) == Approx(0.0));
 		CHECK(euc_vec.dimensions() == 1);
 	}
 
 	SECTION("2 dimensions and 0 value") {
 		auto euc_vec = comp6771::euclidean_vector(2, 0.0);
-		CHECK(euc_vec.at(0) == 0.0);
-		CHECK(euc_vec.at(1) == 0.0);
+		CHECK(euc_vec.at(0) == Approx(0.0));
+		CHECK(euc_vec.at(1) == Approx(0.0));
 		CHECK(euc_vec.dimensions() == 2);
 	}
 
 	SECTION("2 dimensions and positive value") {
 		auto euc_vec = comp6771::euclidean_vector(2, 4.2);
-		CHECK(euc_vec.at(0) == 4.2);
-		CHECK(euc_vec.at(1) == 4.2);
+		CHECK(euc_vec.at(0) == Approx(4.2));
+		CHECK(euc_vec.at(1) == Approx(4.2));
 		CHECK(euc_vec.dimensions() == 2);
 	}
 
 	SECTION("2 dimensions and negative value") {
 		auto euc_vec = comp6771::euclidean_vector(2, -5.6);
-		CHECK(euc_vec.at(0) == -5.6);
-		CHECK(euc_vec.at(1) == -5.6);
+		CHECK(euc_vec.at(0) == Approx(-5.6));
+		CHECK(euc_vec.at(1) == Approx(-5.6));
 		CHECK(euc_vec.dimensions() == 2);
 	}
 
 	SECTION("Larger dimension and some value") {
 		auto euc_vec = comp6771::euclidean_vector(5, 48.523);
-		CHECK(euc_vec.at(0) == 48.523);
-		CHECK(euc_vec.at(1) == 48.523);
-		CHECK(euc_vec.at(2) == 48.523);
-		CHECK(euc_vec.at(3) == 48.523);
-		CHECK(euc_vec.at(4) == 48.523);
+		CHECK(euc_vec.at(0) == Approx(48.523));
+		CHECK(euc_vec.at(1) == Approx(48.523));
+		CHECK(euc_vec.at(2) == Approx(48.523));
+		CHECK(euc_vec.at(3) == Approx(48.523));
+		CHECK(euc_vec.at(4) == Approx(48.523));
 		CHECK(euc_vec.dimensions() == 5);
 	}
 }
@@ -136,21 +136,125 @@ TEST_CASE("Constructor taking start and end iterators should instantiate correct
 	SECTION("Full range of small vector") {
 		auto vec = std::vector<double>{513.0, 41.385, 1843.2348};
 		auto euc_vec = comp6771::euclidean_vector(vec.begin(), vec.end());
-		CHECK(euc_vec.at(0) == 513.0);
-		CHECK(euc_vec.at(1) == 41.385);
-		CHECK(euc_vec.at(2) == 1843.2348);
+		CHECK(euc_vec.at(0) == Approx(513.0));
+		CHECK(euc_vec.at(1) == Approx(41.385));
+		CHECK(euc_vec.at(2) == Approx(1843.2348));
 		CHECK(euc_vec.dimensions() == 3);
 	}
 
-	SECTION("Subset range including beginning and excluding end of vector") {}
+	SECTION("Subset range including beginning and excluding end of vector") {
+		auto vec = std::vector<double>{3.0, 41.0, 824.13, 3.9, 0.1248, 24.182};
+		auto euc_vec = comp6771::euclidean_vector(vec.begin(), vec.begin() + 3);
+		CHECK(euc_vec.at(0) == Approx(3.0));
+		CHECK(euc_vec.at(1) == Approx(41.0));
+		CHECK(euc_vec.at(2) == Approx(824.13));
+		CHECK(euc_vec.dimensions() == 3);
+	}
 
-	SECTION("Subset range excluding beginning and including end of vector") {}
+	SECTION("Subset range excluding beginning and including end of vector") {
+		auto vec = std::vector<double>{3.0, 41.0, 824.13, 3.9, 0.1248, 24.182};
+		auto euc_vec = comp6771::euclidean_vector(vec.begin() + 2, vec.end());
+		CHECK(euc_vec.at(0) == Approx(824.13));
+		CHECK(euc_vec.at(1) == Approx(3.9));
+		CHECK(euc_vec.at(2) == Approx(0.1248));
+		CHECK(euc_vec.at(3) == Approx(24.182));
+		CHECK(euc_vec.dimensions() == 4);
+	}
 
-	SECTION("Subset range excluding beginning and excluding end of vector") {}
+	SECTION("Subset range excluding beginning and excluding end of vector") {
+		auto vec = std::vector<double>{3.0, 41.0, 824.13, 3.9, 0.1248, 24.182};
+		auto euc_vec = comp6771::euclidean_vector(vec.begin() + 2, vec.begin() + 5);
+		CHECK(euc_vec.at(0) == Approx(824.13));
+		CHECK(euc_vec.at(1) == Approx(3.9));
+		CHECK(euc_vec.at(2) == Approx(0.1248));
+		CHECK(euc_vec.dimensions() == 3);
+	}
 }
 
-TEST_CASE("Constructor taking an initialiser list should instantiate correctly") {}
+TEST_CASE("Constructor taking an initialiser list should instantiate correctly") {
+	SECTION("Empty initialiser list") {
+		auto euc_vec = comp6771::euclidean_vector({});
+		CHECK(euc_vec.dimensions() == 0);
+	}
 
-TEST_CASE("Copy constructor should instantiate correctly") {}
+	SECTION("1 dimension initialiser list") {
+		auto euc_vec = comp6771::euclidean_vector({1.1});
+		CHECK(euc_vec.at(0) == Approx(1.1));
+		CHECK(euc_vec.dimensions() == 1);
+	}
 
-TEST_CASE("Move constructor should instantiate correctly") {}
+	SECTION("Multi-dimension initialiser list") {
+		auto euc_vec = comp6771::euclidean_vector({1.1});
+		CHECK(euc_vec.at(0) == Approx(1.1));
+		CHECK(euc_vec.dimensions() == 1);
+	}
+}
+
+TEST_CASE("Copy constructor should instantiate correctly") {
+	SECTION("Copy empty euclidean vector") {
+		auto euc_vec1 = comp6771::euclidean_vector({});
+		auto euc_vec2 = comp6771::euclidean_vector(euc_vec1);
+		CHECK(euc_vec1.dimensions() == 0);
+		CHECK(euc_vec2.dimensions() == 0);
+	}
+
+	SECTION("Copy 1 dimension euclidean vector") {
+		auto euc_vec1 = comp6771::euclidean_vector({3.4});
+		auto euc_vec2 = comp6771::euclidean_vector(euc_vec1);
+
+		CHECK(euc_vec1.at(0) == Approx(3.4));
+		CHECK(euc_vec1.dimensions() == 1);
+
+		CHECK(euc_vec2.at(0) == Approx(3.4));
+		CHECK(euc_vec2.dimensions() == 1);
+	}
+
+	SECTION("Copy multi-dimension euclidean vector") {
+		auto euc_vec1 = comp6771::euclidean_vector({3.4, 6.1, 7.184181, 5.51});
+		auto euc_vec2 = comp6771::euclidean_vector(euc_vec1);
+
+		CHECK(euc_vec1.at(0) == Approx(3.4));
+		CHECK(euc_vec1.at(1) == Approx(6.1));
+		CHECK(euc_vec1.at(2) == Approx(7.184181));
+		CHECK(euc_vec1.at(3) == Approx(5.51));
+		CHECK(euc_vec1.dimensions() == 4);
+
+		CHECK(euc_vec2.at(0) == Approx(3.4));
+		CHECK(euc_vec2.at(1) == Approx(6.1));
+		CHECK(euc_vec2.at(2) == Approx(7.184181));
+		CHECK(euc_vec2.at(3) == Approx(5.51));
+		CHECK(euc_vec2.dimensions() == 4);
+	}
+}
+
+TEST_CASE("Move constructor should instantiate correctly") {
+	SECTION("Move empty euclidean vector") {
+		auto euc_vec1 = comp6771::euclidean_vector({});
+		auto euc_vec2 = comp6771::euclidean_vector(std::move(euc_vec1));
+		CHECK(euc_vec1.dimensions() == 0);
+		CHECK(euc_vec2.dimensions() == 0);
+	}
+
+	SECTION("Move 1 dimension euclidean vector") {
+		auto euc_vec1 = comp6771::euclidean_vector({3.4});
+		auto euc_vec2 = comp6771::euclidean_vector(std::move(euc_vec1));
+
+		CHECK(euc_vec1.dimensions() == 0);
+
+		CHECK(euc_vec2.at(0) == Approx(3.4));
+		CHECK(euc_vec2.dimensions() == 1);
+	}
+
+	SECTION("Move multi-dimension euclidean vector") {
+		auto euc_vec1 = comp6771::euclidean_vector({3.4, 6.1, 7.184181, 5.51});
+		auto euc_vec2 = comp6771::euclidean_vector(std::move(euc_vec1));
+
+		CHECK(euc_vec1.dimensions() == 0);
+
+		CHECK(euc_vec2.at(0) == Approx(3.4));
+		CHECK(euc_vec2.at(1) == Approx(6.1));
+		CHECK(euc_vec2.at(2) == Approx(7.184181));
+		CHECK(euc_vec2.at(3) == Approx(5.51));
+		CHECK(euc_vec2.dimensions() == 4);
+	}
+}
