@@ -1,10 +1,4 @@
 cxx_test(
-   TARGET test_euclidean_vector_access_operators
-   FILENAME "test_euclidean_vector_access_operators.cpp"
-   LINK euclidean_vector
-)
-
-cxx_test(
    TARGET test_euclidean_vector_addition
    FILENAME "test_euclidean_vector_addition.cpp"
    LINK euclidean_vector
@@ -81,6 +75,19 @@ cxx_test(
    FILENAME "test_euclidean_vector_negation.cpp"
    LINK euclidean_vector
 )
+
+cxx_test(
+   TARGET test_euclidean_vector_output
+   FILENAME "test_euclidean_vector_output.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
+   TARGET test_euclidean_vector_subscript
+   FILENAME "test_euclidean_vector_subscript.cpp"
+   LINK euclidean_vector
+)
+
 
 cxx_test(
    TARGET test_euclidean_vector_subtraction
