@@ -52,5 +52,6 @@ TEST_CASE("List type conversion should convert euclidean vector to list") {
 		CHECK(*std::next(lst.begin(), 0) == Approx(-2.032));
 		CHECK(*std::next(lst.begin(), 1) == Approx(8.3293));
 		CHECK(*std::next(lst.begin(), 2) == Approx(12.429));
+		CHECK(lst.size() == 3);
 	}
 }
