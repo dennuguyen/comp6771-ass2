@@ -2,6 +2,7 @@
 #define COMP6771_EUCLIDEAN_VECTOR_HPP
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <list>
 #include <memory>
@@ -182,6 +183,17 @@ namespace comp6771 {
 		}
 
 	private:
+		// friend auto swap(euclidean_vector& first, euclidean_vector& second) -> euclidean_vector& {
+		// 	std::swap(first.size_, second.size_);
+		// 	std::swap
+		// }
+
+		// Returns true if given doubles are the same.
+		static auto is_double_equal(double const& a, double const& b) -> bool {
+			return std::fabs(a - b) <= (std::fabs(a) < std::fabs(b) ? std::fabs(a) : std::fabs(b))
+			                              * std::numeric_limits<double>::epsilon();
+		}
+
 		std::size_t size_; // Dimension of vector.
 		// ass2 spec requires we use double[]
 		// NOLINTNEXTLINE(modernize-avoid-c-arrays)
