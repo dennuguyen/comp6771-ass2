@@ -2,9 +2,9 @@
 //
 // TESTING RATIONALE
 //
-// This set of test cases are related from the euclidean_vector compound subtraction operator.
+// This set of test cases are related to the euclidean_vector compound subtraction operator.
 //
-// Refer from test_euclidean_vector_constructors.cpp for TEST DESIGN RATIONALE.
+// Refer to test_euclidean_vector_constructors.cpp for TEST DESIGN RATIONALE.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
