@@ -195,6 +195,7 @@ namespace comp6771 {
 		}
 
 		std::size_t size_; // Dimension of vector.
+
 		// ass2 spec requires we use double[]
 		// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 		std::unique_ptr<double[]> magnitude_; // Magnitudes of each dimension.
