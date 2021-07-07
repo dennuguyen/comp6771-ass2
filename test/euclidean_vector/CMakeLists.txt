@@ -77,6 +77,12 @@ cxx_test(
 )
 
 cxx_test(
+   TARGET test_euclidean_vector_subtraction
+   FILENAME "test_euclidean_vector_subtraction.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
    TARGET test_euclidean_vector_unary_plus
    FILENAME "test_euclidean_vector_unary_plus.cpp"
    LINK euclidean_vector
