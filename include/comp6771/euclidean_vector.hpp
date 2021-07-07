@@ -3,7 +3,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <experimental/iterator>
 #include <iostream>
+#include <iterator>
 #include <list>
 #include <memory>
 #include <stdexcept>
@@ -156,19 +158,18 @@ namespace comp6771 {
 		// Prints out the magnitude in each dimension of the Euclidean vector (surrounded by [ and ]),
 		// e.g. for a 3-dimensional vector: [1 2 3]. Note: When printing the magnitude, simple use the
 		// double << operator.
-		friend auto operator<<(std::ostream& os, euclidean_vector const& v) noexcept -> std::ostream& {
-			auto str = std::string();
-			std::for_each (v.magnitude_.get(), v.magnitude_.get() + v.size_, [&str](auto& i) {
-				str += std::to_string(i);
-				str += " ";
-			});
-			str.pop_back(); // Remove last whitespace.
-			os << "[" << str << "]";
-			return os;
+		friend auto operator<<(std::ostream& output, euclidean_vector const& euc_vec) noexcept
+		   -> std::ostream& {
+			output << "[";
+			auto const vec = static_cast<std::vector<double>>(euc_vec);
+			std::copy(vec.begin(), vec.end(), std::experimental::make_ostream_joiner(output, " "));
+			// std::copy(vec.begin(), vec.end(), std::ostream_iterator<double>(output, " "));
+			output << "]";
+			return output;
 		}
 
 	private:
-		// friend auto swap(euclidean_vector& first, euclidean_vector& second) -> euclidean_vector& {
+		// static auto swap(euclidean_vector& first, euclidean_vector& second) -> euclidean_vector& {
 		// 	std::swap(first.size_, second.size_);
 		// 	std::swap
 		// }
