@@ -117,12 +117,14 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator/=(double divisor) -> euclidean_vector& {
-		if (divisor == 0.0) {
+		if (is_double_equal(divisor, 0.0) == true) {
 			throw euclidean_vector_error("Invalid vector division by 0");
 		}
-		std::for_each (magnitude_.get(), magnitude_.get() + size_, [divisor](auto& component) {
-			component /= divisor;
-		});
+		std::transform(
+		   magnitude_.get(),
+		   magnitude_.get() + size_,
+		   magnitude_.get(),
+		   [divisor](auto& component) { return std::divides<double>{}(component, divisor); });
 		return *this;
 	}
 
