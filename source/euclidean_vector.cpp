@@ -68,17 +68,17 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator+() const noexcept -> euclidean_vector {
-		auto euc_vec = *this;
-		return euc_vec;
+		auto result = *this;
+		return result;
 	}
 
 	auto euclidean_vector::operator-() const noexcept -> euclidean_vector {
-		auto euc_vec = euclidean_vector(static_cast<int>(size_));
+		auto result = euclidean_vector(static_cast<int>(size_));
 		std::transform(magnitude_.get(),
 		               magnitude_.get() + size_,
-		               euc_vec.magnitude_.get(),
+		               result.magnitude_.get(),
 		               std::negate<>());
-		return euc_vec;
+		return result;
 	}
 
 	auto euclidean_vector::operator+=(euclidean_vector const& addend) -> euclidean_vector& {
@@ -168,7 +168,7 @@ namespace comp6771 {
 
 	auto euclidean_vector::do_multiply(euclidean_vector const& multiplicand,
 	                                   double multiplier,
-	                                   euclidean_vector& product) -> void {
+	                                   euclidean_vector& product) noexcept -> void {
 		std::transform(multiplicand.magnitude_.get(),
 		               multiplicand.magnitude_.get() + multiplicand.size_,
 		               product.magnitude_.get(),
