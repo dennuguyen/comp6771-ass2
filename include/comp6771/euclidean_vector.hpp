@@ -98,17 +98,22 @@ namespace comp6771 {
 
 		// True if the two vectors are equal in the number of dimensions and the magnitude in each
 		// dimension is equal.
-		friend auto operator==(euclidean_vector const& x, euclidean_vector const& y) noexcept -> bool {
-			if (x.dimensions() != y.dimensions()) {
+		friend auto operator==(euclidean_vector const& lhs, euclidean_vector const& rhs) noexcept
+		   -> bool {
+			if (lhs.dimensions() != rhs.dimensions()) {
 				return false;
 			}
-			return std::equal(x.magnitude_.get(), x.magnitude_.get() + x.size_, y.magnitude_.get());
+			return std::equal(lhs.magnitude_.get(),
+			                  lhs.magnitude_.get() + lhs.size_,
+			                  rhs.magnitude_.get(),
+			                  is_double_equal);
 		}
 
 		// True if the two vectors are not equal in the number of dimensions or the magnitude in each
 		// dimension is not equal.
-		friend auto operator!=(euclidean_vector const& x, euclidean_vector const& y) noexcept -> bool {
-			return !operator==(x, y);
+		friend auto operator!=(euclidean_vector const& lhs, euclidean_vector const& rhs) noexcept
+		   -> bool {
+			return !operator==(lhs, rhs);
 		}
 
 		// For adding vectors of the same dimension.
