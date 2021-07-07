@@ -59,6 +59,12 @@ cxx_test(
 )
 
 cxx_test(
+   TARGET test_euclidean_vector_divide
+   FILENAME "test_euclidean_vector_divide.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
    TARGET test_euclidean_vector_equals
    FILENAME "test_euclidean_vector_equals.cpp"
    LINK euclidean_vector
