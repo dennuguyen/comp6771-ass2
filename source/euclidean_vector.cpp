@@ -29,31 +29,31 @@ namespace comp6771 {
 		std::copy(first, last, magnitude_.get());
 	}
 
-	euclidean_vector::euclidean_vector(std::initializer_list<double> list) noexcept
-	: size_(list.size())
+	euclidean_vector::euclidean_vector(std::initializer_list<double> lst) noexcept
+	: size_(lst.size())
 	, magnitude_(std::make_unique<double[]>(size_)) {
-		std::copy(list.begin(), list.end(), magnitude_.get());
+		std::copy(lst.begin(), lst.end(), magnitude_.get());
 	}
 
-	euclidean_vector::euclidean_vector(euclidean_vector const& vec) noexcept
-	: size_(vec.size_)
+	euclidean_vector::euclidean_vector(euclidean_vector const& euc_vec) noexcept
+	: size_(euc_vec.size_)
 	, magnitude_(std::make_unique<double[]>(size_)) {
-		std::copy(vec.magnitude_.get(), vec.magnitude_.get() + size_, magnitude_.get());
+		std::copy(euc_vec.magnitude_.get(), euc_vec.magnitude_.get() + size_, magnitude_.get());
 	}
 
-	euclidean_vector::euclidean_vector(euclidean_vector&& v) noexcept
-	: size_(std::exchange(v.size_, 0))
-	, magnitude_(std::exchange(v.magnitude_, nullptr)) {}
+	euclidean_vector::euclidean_vector(euclidean_vector&& euc_vec) noexcept
+	: size_(std::exchange(euc_vec.size_, 0))
+	, magnitude_(std::exchange(euc_vec.magnitude_, nullptr)) {}
 
-	auto euclidean_vector::operator=(euclidean_vector const& v) noexcept -> euclidean_vector& {
-		// *this = euclidean_vector(v);
-		(void)v;
+	auto euclidean_vector::operator=(euclidean_vector const& euc_vec) noexcept -> euclidean_vector& {
+		// *this = euclidean_vector(euc_vec);
+		(void)euc_vec;
 		return *this;
 	}
 
-	auto euclidean_vector::operator=(euclidean_vector&& v) noexcept -> euclidean_vector& {
-		// std::swap(*this, v);
-		(void)v;
+	auto euclidean_vector::operator=(euclidean_vector&& euc_vec) noexcept -> euclidean_vector& {
+		// std::swap(*this, euc_vec);
+		(void)euc_vec;
 		return *this;
 	}
 
@@ -68,14 +68,17 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator+() const noexcept -> euclidean_vector {
-		auto v = *this;
-		return v;
+		auto euc_vec = *this;
+		return euc_vec;
 	}
 
 	auto euclidean_vector::operator-() const noexcept -> euclidean_vector {
-		auto v = euclidean_vector(static_cast<int>(size_));
-		std::transform(magnitude_.get(), magnitude_.get() + size_, v.magnitude_.get(), std::negate<>());
-		return v;
+		auto euc_vec = euclidean_vector(static_cast<int>(size_));
+		std::transform(magnitude_.get(),
+		               magnitude_.get() + size_,
+		               euc_vec.magnitude_.get(),
+		               std::negate<>());
+		return euc_vec;
 	}
 
 	auto euclidean_vector::operator+=(euclidean_vector const& addend) -> euclidean_vector& {
@@ -129,15 +132,15 @@ namespace comp6771 {
 	}
 
 	euclidean_vector::operator std::vector<double>() const noexcept {
-		auto v = std::vector<double>(size_);
-		std::copy(magnitude_.get(), magnitude_.get() + size_, v.begin());
-		return v;
+		auto vec = std::vector<double>(size_);
+		std::copy(magnitude_.get(), magnitude_.get() + size_, vec.begin());
+		return vec;
 	}
 
 	euclidean_vector::operator std::list<double>() const noexcept {
-		auto l = std::list<double>(size_);
-		std::copy(magnitude_.get(), magnitude_.get() + size_, l.begin());
-		return l;
+		auto lst = std::list<double>(size_);
+		std::copy(magnitude_.get(), magnitude_.get() + size_, lst.begin());
+		return lst;
 	}
 
 	[[nodiscard]] auto euclidean_vector::at(int component) const -> double {
