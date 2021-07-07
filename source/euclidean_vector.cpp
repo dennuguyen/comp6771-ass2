@@ -107,9 +107,11 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator*=(double multiplier) noexcept -> euclidean_vector& {
-		std::for_each (magnitude_.get(), magnitude_.get() + size_, [multiplier](auto& component) {
-			component *= multiplier;
-		});
+		std::transform(
+		   magnitude_.get(),
+		   magnitude_.get() + size_,
+		   magnitude_.get(),
+		   [multiplier](auto& component) { return std::multiplies{}(component, multiplier); });
 		return *this;
 	}
 
