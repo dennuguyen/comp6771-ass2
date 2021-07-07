@@ -35,10 +35,10 @@ namespace comp6771 {
 		std::copy(list.begin(), list.end(), magnitude_.get());
 	}
 
-	euclidean_vector::euclidean_vector(euclidean_vector const& v) noexcept
-	: size_(v.size_)
+	euclidean_vector::euclidean_vector(euclidean_vector const& vec) noexcept
+	: size_(vec.size_)
 	, magnitude_(std::make_unique<double[]>(size_)) {
-		std::copy(v.magnitude_.get(), v.magnitude_.get() + size_, magnitude_.get());
+		std::copy(vec.magnitude_.get(), vec.magnitude_.get() + size_, magnitude_.get());
 	}
 
 	euclidean_vector::euclidean_vector(euclidean_vector&& v) noexcept
