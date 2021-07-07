@@ -11,6 +11,12 @@ cxx_test(
 )
 
 cxx_test(
+   TARGET test_euclidean_vector_at
+   FILENAME "test_euclidean_vector_at.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
    TARGET test_euclidean_vector_compound_addition
    FILENAME "test_euclidean_vector_compound_addition.cpp"
    LINK euclidean_vector
