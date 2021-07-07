@@ -88,7 +88,7 @@ namespace comp6771 {
 		               magnitude_.get() + size_,
 		               addend.magnitude_.get(),
 		               magnitude_.get(),
-		               [](auto const& lhs, auto const& rhs) { return lhs + rhs; });
+		               [](auto const& lhs, auto const& rhs) { return std::plus<double>{}(lhs, rhs); });
 		return *this;
 	}
 
@@ -102,16 +102,17 @@ namespace comp6771 {
 		               magnitude_.get() + size_,
 		               subtrahend.magnitude_.get(),
 		               magnitude_.get(),
-		               [](auto const& lhs, auto const& rhs) { return lhs - rhs; });
+		               [](auto const& lhs, auto const& rhs) { return std::minus<double>{}(lhs, rhs); });
 		return *this;
 	}
 
 	auto euclidean_vector::operator*=(double multiplier) noexcept -> euclidean_vector& {
-		std::transform(
-		   magnitude_.get(),
-		   magnitude_.get() + size_,
-		   magnitude_.get(),
-		   [multiplier](auto& component) { return std::multiplies{}(component, multiplier); });
+		std::transform(magnitude_.get(),
+		               magnitude_.get() + size_,
+		               magnitude_.get(),
+		               [multiplier](auto const& component) {
+			               return std::multiplies<double>{}(component, multiplier);
+		               });
 		return *this;
 	}
 
