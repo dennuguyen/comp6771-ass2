@@ -82,52 +82,22 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator+=(euclidean_vector const& addend) -> euclidean_vector& {
-		if (dimensions() != addend.dimensions()) {
-			auto const what = "Dimensions of LHS(" + std::to_string(dimensions()) + ") and RHS("
-			                  + std::to_string(addend.dimensions()) + ") do not match";
-			throw euclidean_vector_error(what);
-		}
-		std::transform(magnitude_.get(),
-		               magnitude_.get() + size_,
-		               addend.magnitude_.get(),
-		               magnitude_.get(),
-		               [](auto const& lhs, auto const& rhs) { return std::plus<double>{}(lhs, rhs); });
+		do_plus(*this, addend, *this);
 		return *this;
 	}
 
 	auto euclidean_vector::operator-=(euclidean_vector const& subtrahend) -> euclidean_vector& {
-		if (dimensions() != subtrahend.dimensions()) {
-			auto const what = "Dimensions of LHS(" + std::to_string(dimensions()) + ") and RHS("
-			                  + std::to_string(subtrahend.dimensions()) + ") do not match";
-			throw euclidean_vector_error(what);
-		}
-		std::transform(magnitude_.get(),
-		               magnitude_.get() + size_,
-		               subtrahend.magnitude_.get(),
-		               magnitude_.get(),
-		               [](auto const& lhs, auto const& rhs) { return std::minus<double>{}(lhs, rhs); });
+		do_minus(*this, subtrahend, *this);
 		return *this;
 	}
 
 	auto euclidean_vector::operator*=(double multiplier) noexcept -> euclidean_vector& {
-		std::transform(magnitude_.get(),
-		               magnitude_.get() + size_,
-		               magnitude_.get(),
-		               [multiplier](auto const& component) {
-			               return std::multiplies<double>{}(component, multiplier);
-		               });
+		do_multiply(*this, multiplier, *this);
 		return *this;
 	}
 
 	auto euclidean_vector::operator/=(double divisor) -> euclidean_vector& {
-		if (is_double_equal(divisor, 0.0) == true) {
-			throw euclidean_vector_error("Invalid vector division by 0");
-		}
-		std::transform(
-		   magnitude_.get(),
-		   magnitude_.get() + size_,
-		   magnitude_.get(),
-		   [divisor](auto& component) { return std::divides<double>{}(component, divisor); });
+		do_divide(*this, divisor, *this);
 		return *this;
 	}
 
@@ -163,6 +133,61 @@ namespace comp6771 {
 
 	[[nodiscard]] auto euclidean_vector::dimensions() const noexcept -> int {
 		return static_cast<int>(size_);
+	}
+
+	auto euclidean_vector::do_plus(euclidean_vector const& left_addend,
+	                               euclidean_vector const& right_addend,
+	                               euclidean_vector& sum) -> void {
+		if (left_addend.dimensions() != right_addend.dimensions()) {
+			auto const what = "Dimensions of LHS(" + std::to_string(left_addend.dimensions())
+			                  + ") and RHS(" + std::to_string(right_addend.dimensions())
+			                  + ") do not match";
+			throw euclidean_vector_error(what);
+		}
+		std::transform(left_addend.magnitude_.get(),
+		               left_addend.magnitude_.get() + left_addend.size_,
+		               right_addend.magnitude_.get(),
+		               sum.magnitude_.get(),
+		               [](auto const& lhs, auto const& rhs) { return std::plus<double>{}(lhs, rhs); });
+	}
+
+	auto euclidean_vector::do_minus(euclidean_vector const& minuend,
+	                                euclidean_vector const& subtrahend,
+	                                euclidean_vector& difference) -> void {
+		if (minuend.dimensions() != subtrahend.dimensions()) {
+			auto const what = "Dimensions of LHS(" + std::to_string(minuend.dimensions()) + ") and RHS("
+			                  + std::to_string(subtrahend.dimensions()) + ") do not match";
+			throw euclidean_vector_error(what);
+		}
+		std::transform(minuend.magnitude_.get(),
+		               minuend.magnitude_.get() + minuend.size_,
+		               subtrahend.magnitude_.get(),
+		               difference.magnitude_.get(),
+		               [](auto const& lhs, auto const& rhs) { return std::minus<double>{}(lhs, rhs); });
+	}
+
+	auto euclidean_vector::do_multiply(euclidean_vector const& multiplicand,
+	                                   double multiplier,
+	                                   euclidean_vector& product) -> void {
+		std::transform(multiplicand.magnitude_.get(),
+		               multiplicand.magnitude_.get() + multiplicand.size_,
+		               product.magnitude_.get(),
+		               [multiplier](auto const& component) {
+			               return std::multiplies<double>{}(component, multiplier);
+		               });
+	}
+
+	auto euclidean_vector::do_divide(euclidean_vector const& dividend,
+	                                 double divisor,
+	                                 euclidean_vector& quotient) -> void {
+		if (is_double_equal(divisor, 0.0) == true) {
+			throw euclidean_vector_error("Invalid vector division by 0");
+		}
+		std::transform(
+		   dividend.magnitude_.get(),
+		   dividend.magnitude_.get() + dividend.size_,
+		   quotient.magnitude_.get(),
+		   [divisor](auto& component) { return std::divides<double>{}(component, divisor); });
 	}
 
 	auto euclidean_norm(euclidean_vector const& v) noexcept -> double {

@@ -117,60 +117,40 @@ namespace comp6771 {
 		}
 
 		// For adding vectors of the same dimension.
-		friend auto operator+(euclidean_vector const& x, euclidean_vector const& y)
-		   -> euclidean_vector {
-			if (x.dimensions() != y.dimensions()) {
-				auto const what = "Dimensions of LHS(" + std::to_string(x.dimensions()) + ") and RHS("
-				                  + std::to_string(y.dimensions()) + ") do not match";
-				throw euclidean_vector_error(what);
-			}
-			auto z = euclidean_vector(x.dimensions());
-			std::transform(x.magnitude_.get(),
-			               x.magnitude_.get() + x.size_,
-			               y.magnitude_.get(),
-			               z.magnitude_.get(),
-			               [](auto const& lhs, auto const& rhs) { return lhs + rhs; });
-			return z;
+		friend auto operator+(euclidean_vector const& left_addend,
+		                      euclidean_vector const& right_addend) -> euclidean_vector {
+			auto sum = euclidean_vector(left_addend.dimensions());
+			do_plus(left_addend, right_addend, sum);
+			return sum;
 		}
 
 		// For substracting vectors of the same dimension.
-		friend auto operator-(euclidean_vector const& x, euclidean_vector const& y)
+		friend auto operator-(euclidean_vector const& minuend, euclidean_vector const& subtrahend)
 		   -> euclidean_vector {
-			if (x.dimensions() != y.dimensions()) {
-				auto const what = "Dimensions of LHS(" + std::to_string(x.dimensions()) + ") and RHS("
-				                  + std::to_string(y.dimensions()) + ") do not match";
-				throw euclidean_vector_error(what);
-			}
-			auto z = euclidean_vector(x.dimensions());
-			std::transform(x.magnitude_.get(),
-			               x.magnitude_.get() + x.size_,
-			               y.magnitude_.get(),
-			               z.magnitude_.get(),
-			               [](auto const& lhs, auto const& rhs) { return lhs - rhs; });
-			return z;
+			auto difference = euclidean_vector(minuend.dimensions());
+			do_minus(minuend, subtrahend, difference);
+			return difference;
 		}
 
 		// For scalar multiplication, e.g. [1 2] * 3 = 3 * [1 2] = [3 6]. Hint: you'll need two
 		// operators, as the scalar can be either side of the vector.
-		friend auto operator*(euclidean_vector const& v, double multiplier) noexcept
+		friend auto operator*(euclidean_vector const& multiplicand, double multiplier) noexcept
 		   -> euclidean_vector {
-			auto w = v;
-			std::for_each (w.magnitude_.get(), w.magnitude_.get() + w.size_, [&multiplier](auto& i) {
-				i *= multiplier;
-			});
-			return w;
+			auto product = euclidean_vector(multiplicand.dimensions());
+			do_multiply(multiplicand, multiplier, product);
+			return product;
+		}
+
+		friend auto operator*(double multiplier, euclidean_vector const& multiplicand) noexcept
+		   -> euclidean_vector {
+			return multiplicand * multiplier;
 		}
 
 		// For scalar division, e.g. [3 6] / 2 = [1.5 3].
-		friend auto operator/(euclidean_vector const& v, double divisor) -> euclidean_vector {
-			if (divisor == 0.0) {
-				throw euclidean_vector_error("Invalid vector division by 0");
-			}
-			auto w = v;
-			std::for_each (w.magnitude_.get(), w.magnitude_.get() + w.size_, [&divisor](auto& i) {
-				i /= divisor;
-			});
-			return w;
+		friend auto operator/(euclidean_vector const& dividend, double divisor) -> euclidean_vector {
+			auto quotient = euclidean_vector(dividend.dimensions());
+			do_divide(dividend, divisor, quotient);
+			return quotient;
 		}
 
 		// Prints out the magnitude in each dimension of the Euclidean vector (surrounded by [ and ]),
@@ -198,6 +178,20 @@ namespace comp6771 {
 			return std::fabs(a - b) <= (std::fabs(a) < std::fabs(b) ? std::fabs(a) : std::fabs(b))
 			                              * std::numeric_limits<double>::epsilon();
 		}
+
+		// Helper function to do addition of euclidean vectors.
+		static auto do_plus(euclidean_vector const&, euclidean_vector const&, euclidean_vector&)
+		   -> void;
+
+		// Helper function to do subtraction of euclidean vectors.
+		static auto do_minus(euclidean_vector const&, euclidean_vector const&, euclidean_vector&)
+		   -> void;
+
+		// Helper function to do scalar multiplication of euclidean vector.
+		static auto do_multiply(euclidean_vector const&, double, euclidean_vector&) -> void;
+
+		// Helper function to do scalar division of euclidean vector.
+		static auto do_divide(euclidean_vector const&, double, euclidean_vector&) -> void;
 
 		std::size_t size_; // Dimension of vector.
 
