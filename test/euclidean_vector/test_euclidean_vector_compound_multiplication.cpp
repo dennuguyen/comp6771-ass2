@@ -13,7 +13,7 @@
 #include <catch2/catch.hpp>
 #include <sstream>
 
-TEST_CASE("Compound multiplication of zero euclidean vector should have no effect") {
+TEST_CASE("Compound multiplication of zero euclidean vector should return zero euclidean vector") {
 	SECTION("Multiplying zero euclidean vector with zero multiplier") {
 		auto euc_vec = comp6771::euclidean_vector({0.0, 0.0});
 		euc_vec *= 0.0;
