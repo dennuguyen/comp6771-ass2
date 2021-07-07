@@ -188,7 +188,7 @@ namespace comp6771 {
 		   -> void;
 
 		// Helper function to do scalar multiplication of euclidean vector.
-		static auto do_multiply(euclidean_vector const&, double, euclidean_vector&) -> void;
+		static auto do_multiply(euclidean_vector const&, double, euclidean_vector&) noexcept -> void;
 
 		// Helper function to do scalar division of euclidean vector.
 		static auto do_divide(euclidean_vector const&, double, euclidean_vector&) -> void;
