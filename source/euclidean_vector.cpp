@@ -84,9 +84,9 @@ namespace comp6771 {
 			                  + std::to_string(addend.dimensions()) + ") do not match";
 			throw euclidean_vector_error(what);
 		}
-		std::transform(magnitude_.get(),
-		               magnitude_.get() + size_,
-		               addend.magnitude_.get(),
+		std::transform(addend.magnitude_.get(),
+		               addend.magnitude_.get() + addend.size_,
+		               magnitude_.get(),
 		               magnitude_.get(),
 		               [](auto const& lhs, auto const& rhs) { return lhs + rhs; });
 		return *this;
