@@ -12,7 +12,7 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("Adding euclidean vectors should return euclidean vector with added components") {
+TEST_CASE("Dimension of sum should be same as addends") {
 	SECTION("Empty euclidean vectors") {
 		auto const lhs = comp6771::euclidean_vector(0);
 		auto const rhs = comp6771::euclidean_vector(0);
@@ -26,7 +26,9 @@ TEST_CASE("Adding euclidean vectors should return euclidean vector with added co
 		auto const sum = lhs + rhs;
 		CHECK(sum.dimensions() == 100);
 	}
+}
 
+TEST_CASE("Adding euclidean vectors should return euclidean vector with added components") {
 	SECTION("Euclidean vectors with some positive and negative components") {
 		auto const lhs = comp6771::euclidean_vector({6.2, -0.43, 432.1, -0.4382, 43.210, 432.56});
 		auto const rhs = comp6771::euclidean_vector({6.2, -0.43, 432.1, -0.4382, 43.210, 432.56});
