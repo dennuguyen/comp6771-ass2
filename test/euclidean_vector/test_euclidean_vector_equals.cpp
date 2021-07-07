@@ -2,7 +2,8 @@
 //
 // TESTING RATIONALE
 //
-// This set of test cases are related to the euclidean_vector equals and not equals friends.
+// This set of test cases are related to the euclidean_vector equals and not equals friend
+// functions.
 //
 // Refer to test_euclidean_vector_constructors.cpp for TEST DESIGN RATIONALE.
 //
