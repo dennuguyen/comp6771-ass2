@@ -11,7 +11,6 @@
 #include "comp6771/euclidean_vector.hpp"
 
 #include <catch2/catch.hpp>
-#include <sstream>
 
 TEST_CASE("Compound subtraction should subtract RHS magnitude from LHS magnitudes") {
 	SECTION("Subtracting empty RHS from empty LHS") {

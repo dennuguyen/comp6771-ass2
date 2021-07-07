@@ -11,7 +11,6 @@
 #include "comp6771/euclidean_vector.hpp"
 
 #include <catch2/catch.hpp>
-#include <sstream>
 
 TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 	SECTION("Adding empty RHS to empty LHS") {

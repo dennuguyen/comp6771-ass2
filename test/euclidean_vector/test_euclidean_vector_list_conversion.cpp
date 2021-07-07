@@ -12,7 +12,7 @@
 
 #include <catch2/catch.hpp>
 #include <iterator>
-#include <sstream>
+#include <list>
 
 TEST_CASE("List type conversion should convert euclidean vector to list") {
 	SECTION("Empty euclidean vector") {

@@ -11,7 +11,6 @@
 #include "comp6771/euclidean_vector.hpp"
 
 #include <catch2/catch.hpp>
-#include <sstream>
 
 TEST_CASE("Compound multiplication of zero euclidean vector should return zero euclidean vector") {
 	SECTION("Multiplying zero euclidean vector with zero multiplier") {

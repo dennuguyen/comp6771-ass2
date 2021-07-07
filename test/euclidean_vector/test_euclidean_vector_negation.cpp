@@ -11,7 +11,6 @@
 #include "comp6771/euclidean_vector.hpp"
 
 #include <catch2/catch.hpp>
-#include <sstream>
 
 TEST_CASE("Negation should return negative copy") {
 	SECTION("Empty euclidean vector") {

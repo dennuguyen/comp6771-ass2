@@ -11,7 +11,7 @@
 #include "comp6771/euclidean_vector.hpp"
 
 #include <catch2/catch.hpp>
-#include <sstream>
+#include <vector>
 
 TEST_CASE("Vector type conversion should convert euclidean vector to vector") {
 	SECTION("Empty euclidean vector") {
