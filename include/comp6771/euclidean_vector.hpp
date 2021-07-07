@@ -202,8 +202,7 @@ namespace comp6771 {
 
 	// Returns the Euclidean norm of the vector as a double. The Euclidean norm is the square root
 	// of the sum of the squares of the magnitudes in each dimension. E.g, for the vector [1 2 3]
-	// the Euclidean norm is sqrt(1*1 + 2*2 + 3*3) = 3.74. If v.dimensions() == 0, the result is
-	// 0.
+	// the Euclidean norm is sqrt(1*1 + 2*2 + 3*3) = 3.74. If v.dimensions() == 0, the result is 0.
 	auto euclidean_norm(euclidean_vector const& v) noexcept -> double;
 
 	// Returns a Euclidean vector that is the unit vector of v. The magnitude for each dimension
