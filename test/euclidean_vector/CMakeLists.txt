@@ -52,6 +52,11 @@ cxx_test(
    LINK euclidean_vector
 )
 
+cxx_test(
+   TARGET test_euclidean_vector_equals
+   FILENAME "test_euclidean_vector_equals.cpp"
+   LINK euclidean_vector
+)
 
 cxx_test(
    TARGET test_euclidean_vector_list_conversion
