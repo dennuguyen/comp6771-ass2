@@ -5,6 +5,12 @@ cxx_test(
 )
 
 cxx_test(
+   TARGET test_euclidean_vector_addition
+   FILENAME "test_euclidean_vector_addition.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
    TARGET test_euclidean_vector_assignments
    FILENAME "test_euclidean_vector_assignments.cpp"
    LINK euclidean_vector
