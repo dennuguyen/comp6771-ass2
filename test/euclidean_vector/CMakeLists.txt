@@ -41,6 +41,13 @@ cxx_test(
 )
 
 cxx_test(
+   TARGET test_euclidean_vector_dimensions
+   FILENAME "test_euclidean_vector_dimensions.cpp"
+   LINK euclidean_vector
+)
+
+
+cxx_test(
    TARGET test_euclidean_vector_list_conversion
    FILENAME "test_euclidean_vector_list_conversion.cpp"
    LINK euclidean_vector
