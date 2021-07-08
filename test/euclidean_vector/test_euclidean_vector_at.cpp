@@ -82,6 +82,7 @@ TEST_CASE("Out-of-bounds use of at should throw") {
 		auto const euc_vec = comp6771::euclidean_vector({});
 		CHECK_THROWS_AS(euc_vec.at(0), comp6771::euclidean_vector_error);
 	}
+
 	SECTION("Access index less than zero") {
 		auto const euc_vec = comp6771::euclidean_vector(3, 4.0);
 		CHECK_THROWS_AS(euc_vec.at(-1), comp6771::euclidean_vector_error);
