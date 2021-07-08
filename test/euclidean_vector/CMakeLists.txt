@@ -59,6 +59,12 @@ cxx_test(
 )
 
 cxx_test(
+   TARGET test_euclidean_vector_dot
+   FILENAME "test_euclidean_vector_dot.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
    TARGET test_euclidean_vector_equals
    FILENAME "test_euclidean_vector_equals.cpp"
    LINK euclidean_vector
@@ -73,6 +79,12 @@ cxx_test(
 cxx_test(
    TARGET test_euclidean_vector_negation
    FILENAME "test_euclidean_vector_negation.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
+   TARGET test_euclidean_vector_norm
+   FILENAME "test_euclidean_vector_norm.cpp"
    LINK euclidean_vector
 )
 
@@ -98,6 +110,12 @@ cxx_test(
 cxx_test(
    TARGET test_euclidean_vector_unary_plus
    FILENAME "test_euclidean_vector_unary_plus.cpp"
+   LINK euclidean_vector
+)
+
+cxx_test(
+   TARGET test_euclidean_vector_unit
+   FILENAME "test_euclidean_vector_unit.cpp"
    LINK euclidean_vector
 )
 
