@@ -173,11 +173,9 @@ namespace comp6771 {
 		// 	std::swap
 		// }
 
-		// Returns true if given doubles are the same.
-		static auto is_double_equal(double const& a, double const& b) -> bool {
-			return std::fabs(a - b) <= (std::fabs(a) < std::fabs(b) ? std::fabs(a) : std::fabs(b))
-			                              * std::numeric_limits<double>::epsilon();
-		}
+		// Returns true if given doubles are the same. This function is a private method as it is
+		// utilised in friends and source.
+		static auto is_double_equal(double const& a, double const& b) noexcept -> bool;
 
 		// Helper function to do addition of euclidean vectors.
 		static auto do_plus(euclidean_vector const&, euclidean_vector const&, euclidean_vector&)
