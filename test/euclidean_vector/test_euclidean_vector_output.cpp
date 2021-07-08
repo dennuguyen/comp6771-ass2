@@ -4,8 +4,8 @@
 //
 // This set of test cases are related to the euclidean_vector output stream friend function. The
 // example output from the spec is given as "[1 2 3]", from this format we do not display any
-// trailing zeroes. There is example for very large numbers, it will be assumed scientific notation
-// is used.
+// trailing zeroes. There is no example for very large numbers, it will be assumed a shortened
+// format is used therefore scientific notation is used.
 //
 // Refer to test_euclidean_vector_constructors.cpp for TEST DESIGN RATIONALE.
 //
