@@ -163,7 +163,6 @@ namespace comp6771 {
 			output << "[";
 			auto const vec = static_cast<std::vector<double>>(euc_vec);
 			std::copy(vec.begin(), vec.end(), std::experimental::make_ostream_joiner(output, " "));
-			// std::copy(vec.begin(), vec.end(), std::ostream_iterator<double>(output, " "));
 			output << "]";
 			return output;
 		}
