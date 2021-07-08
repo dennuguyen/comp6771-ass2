@@ -135,11 +135,6 @@ namespace comp6771 {
 		return static_cast<int>(size_);
 	}
 
-	auto is_double_equal(double const& a, double const& b) noexcept -> bool {
-		return std::fabs(a - b) <= (std::fabs(a) < std::fabs(b) ? std::fabs(a) : std::fabs(b))
-		                              * std::numeric_limits<double>::epsilon();
-	}
-
 	auto euclidean_vector::do_plus(euclidean_vector const& left_addend,
 	                               euclidean_vector const& right_addend,
 	                               euclidean_vector& sum) -> void {
