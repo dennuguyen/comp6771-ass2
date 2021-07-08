@@ -2,7 +2,6 @@
 #define COMP6771_EUCLIDEAN_VECTOR_HPP
 
 #include <algorithm>
-#include <cmath>
 #include <experimental/iterator>
 #include <iostream>
 #include <iterator>
@@ -11,6 +10,13 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+namespace comp6771::util {
+
+	// Returns true if given doubles are the same.
+	auto is_double_equal(double const& a, double const& b) noexcept -> bool;
+
+} // namespace comp6771::util
 
 namespace comp6771 {
 	class euclidean_vector_error : public std::runtime_error {
@@ -108,7 +114,7 @@ namespace comp6771 {
 			return std::equal(lhs.magnitude_.get(),
 			                  lhs.magnitude_.get() + lhs.size_,
 			                  rhs.magnitude_.get(),
-			                  is_double_equal);
+			                  util::is_double_equal);
 		}
 
 		// True if the two vectors are not equal in the number of dimensions or the magnitude in each
@@ -172,13 +178,6 @@ namespace comp6771 {
 		// 	std::swap(first.size_, second.size_);
 		// 	std::swap
 		// }
-
-		// Returns true if given doubles are the same. This function is a private method as it is
-		// utilised in both friend functions and euclidean vector method.
-		static auto is_double_equal(double const& a, double const& b) noexcept -> bool {
-			return std::fabs(a - b) <= (std::fabs(a) < std::fabs(b) ? std::fabs(a) : std::fabs(b))
-			                              * std::numeric_limits<double>::epsilon();
-		}
 
 		// Helper function to do addition of euclidean vectors.
 		static auto do_plus(euclidean_vector const&, euclidean_vector const&, euclidean_vector&)

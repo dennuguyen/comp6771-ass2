@@ -9,6 +9,13 @@
 #include <memory>
 #include <stdexcept>
 
+namespace comp6771::util {
+	auto is_double_equal(double const& a, double const& b) noexcept -> bool {
+		return std::fabs(a - b) <= (std::fabs(a) < std::fabs(b) ? std::fabs(a) : std::fabs(b))
+		                              * std::numeric_limits<double>::epsilon();
+	}
+} // namespace comp6771::util
+
 namespace comp6771 {
 	euclidean_vector::euclidean_vector() noexcept
 	: euclidean_vector(1, 0.0) {}
@@ -180,7 +187,7 @@ namespace comp6771 {
 	auto euclidean_vector::do_divide(euclidean_vector const& dividend,
 	                                 double divisor,
 	                                 euclidean_vector& quotient) -> void {
-		if (is_double_equal(divisor, 0.0) == true) {
+		if (util::is_double_equal(divisor, 0.0) == true) {
 			throw euclidean_vector_error("Invalid vector division by 0");
 		}
 		std::transform(
