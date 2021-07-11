@@ -101,11 +101,21 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator+=(euclidean_vector const& addend) -> euclidean_vector& {
+		if (dimensions() != addend.dimensions()) {
+			auto const what = "Dimensions of LHS(" + std::to_string(dimensions()) + ") and RHS("
+			                  + std::to_string(addend.dimensions()) + ") do not match";
+			throw euclidean_vector_error(what);
+		}
 		do_plus(*this, addend, *this);
 		return *this;
 	}
 
 	auto euclidean_vector::operator-=(euclidean_vector const& subtrahend) -> euclidean_vector& {
+		if (dimensions() != subtrahend.dimensions()) {
+			auto const what = "Dimensions of LHS(" + std::to_string(dimensions()) + ") and RHS("
+			                  + std::to_string(subtrahend.dimensions()) + ") do not match";
+			throw euclidean_vector_error(what);
+		}
 		do_minus(*this, subtrahend, *this);
 		return *this;
 	}
@@ -116,6 +126,9 @@ namespace comp6771 {
 	}
 
 	auto euclidean_vector::operator/=(double divisor) -> euclidean_vector& {
+		if (util::is_double_equal(divisor, 0.0) == true) {
+			throw euclidean_vector_error("Invalid vector division by 0");
+		}
 		do_divide(*this, divisor, *this);
 		return *this;
 	}
@@ -166,12 +179,6 @@ namespace comp6771 {
 	auto euclidean_vector::do_plus(euclidean_vector const& left_addend,
 	                               euclidean_vector const& right_addend,
 	                               euclidean_vector& sum) -> void {
-		if (left_addend.dimensions() != right_addend.dimensions()) {
-			auto const what = "Dimensions of LHS(" + std::to_string(left_addend.dimensions())
-			                  + ") and RHS(" + std::to_string(right_addend.dimensions())
-			                  + ") do not match";
-			throw euclidean_vector_error(what);
-		}
 		std::transform(left_addend.magnitude_.get(),
 		               left_addend.magnitude_.get() + left_addend.size_,
 		               right_addend.magnitude_.get(),
@@ -183,11 +190,6 @@ namespace comp6771 {
 	auto euclidean_vector::do_minus(euclidean_vector const& minuend,
 	                                euclidean_vector const& subtrahend,
 	                                euclidean_vector& difference) -> void {
-		if (minuend.dimensions() != subtrahend.dimensions()) {
-			auto const what = "Dimensions of LHS(" + std::to_string(minuend.dimensions()) + ") and RHS("
-			                  + std::to_string(subtrahend.dimensions()) + ") do not match";
-			throw euclidean_vector_error(what);
-		}
 		std::transform(minuend.magnitude_.get(),
 		               minuend.magnitude_.get() + minuend.size_,
 		               subtrahend.magnitude_.get(),
@@ -211,9 +213,6 @@ namespace comp6771 {
 	auto euclidean_vector::do_divide(euclidean_vector const& dividend,
 	                                 double divisor,
 	                                 euclidean_vector& quotient) -> void {
-		if (util::is_double_equal(divisor, 0.0) == true) {
-			throw euclidean_vector_error("Invalid vector division by 0");
-		}
 		std::transform(
 		   dividend.magnitude_.get(),
 		   dividend.magnitude_.get() + dividend.size_,

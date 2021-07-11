@@ -127,6 +127,12 @@ namespace comp6771 {
 		// For adding vectors of the same dimension.
 		friend auto operator+(euclidean_vector const& left_addend,
 		                      euclidean_vector const& right_addend) -> euclidean_vector {
+			if (left_addend.dimensions() != right_addend.dimensions()) {
+				auto const what = "Dimensions of LHS(" + std::to_string(left_addend.dimensions())
+				                  + ") and RHS(" + std::to_string(right_addend.dimensions())
+				                  + ") do not match";
+				throw euclidean_vector_error(what);
+			}
 			auto sum = euclidean_vector(left_addend.dimensions());
 			do_plus(left_addend, right_addend, sum);
 			return sum;
@@ -135,6 +141,12 @@ namespace comp6771 {
 		// For substracting vectors of the same dimension.
 		friend auto operator-(euclidean_vector const& minuend, euclidean_vector const& subtrahend)
 		   -> euclidean_vector {
+			if (minuend.dimensions() != subtrahend.dimensions()) {
+				auto const what = "Dimensions of LHS(" + std::to_string(minuend.dimensions())
+				                  + ") and RHS(" + std::to_string(subtrahend.dimensions())
+				                  + ") do not match";
+				throw euclidean_vector_error(what);
+			}
 			auto difference = euclidean_vector(minuend.dimensions());
 			do_minus(minuend, subtrahend, difference);
 			return difference;
@@ -156,6 +168,9 @@ namespace comp6771 {
 
 		// For scalar division, e.g. [3 6] / 2 = [1.5 3].
 		friend auto operator/(euclidean_vector const& dividend, double divisor) -> euclidean_vector {
+			if (util::is_double_equal(divisor, 0.0) == true) {
+				throw euclidean_vector_error("Invalid vector division by 0");
+			}
 			auto quotient = euclidean_vector(dividend.dimensions());
 			do_divide(dividend, divisor, quotient);
 			return quotient;
