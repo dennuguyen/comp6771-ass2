@@ -8,6 +8,7 @@
 #include <iterator>
 #include <memory>
 #include <stdexcept>
+#include <utility>
 
 namespace comp6771::util {
 	auto is_double_equal(double const& a, double const& b) noexcept -> bool {
@@ -25,42 +26,52 @@ namespace comp6771 {
 
 	euclidean_vector::euclidean_vector(int size, double value) noexcept
 	: size_(static_cast<std::size_t>(size))
-	, magnitude_(std::make_unique<double[]>(size_)) {
+	, magnitude_(std::make_unique<double[]>(size_))
+	, norm_(0.0)
+	, valid_norm_(false) {
 		std::fill(magnitude_.get(), magnitude_.get() + size_, value);
 	}
 
 	euclidean_vector::euclidean_vector(std::vector<double>::const_iterator first,
 	                                   std::vector<double>::const_iterator last) noexcept
 	: size_(static_cast<std::size_t>(std::distance(first, last)))
-	, magnitude_(std::make_unique<double[]>(size_)) {
+	, magnitude_(std::make_unique<double[]>(size_))
+	, norm_(0.0)
+	, valid_norm_(false) {
 		std::copy(first, last, magnitude_.get());
 	}
 
 	euclidean_vector::euclidean_vector(std::initializer_list<double> lst) noexcept
 	: size_(lst.size())
-	, magnitude_(std::make_unique<double[]>(size_)) {
+	, magnitude_(std::make_unique<double[]>(size_))
+	, norm_(0.0)
+	, valid_norm_(false) {
 		std::copy(lst.begin(), lst.end(), magnitude_.get());
 	}
 
 	euclidean_vector::euclidean_vector(euclidean_vector const& euc_vec) noexcept
 	: size_(euc_vec.size_)
-	, magnitude_(std::make_unique<double[]>(size_)) {
+	, magnitude_(std::make_unique<double[]>(size_))
+	, norm_(euc_vec.norm_)
+	, valid_norm_(euc_vec.valid_norm_) {
 		std::copy(euc_vec.magnitude_.get(), euc_vec.magnitude_.get() + size_, magnitude_.get());
 	}
 
 	euclidean_vector::euclidean_vector(euclidean_vector&& euc_vec) noexcept
 	: size_(std::exchange(euc_vec.size_, 0))
-	, magnitude_(std::exchange(euc_vec.magnitude_, nullptr)) {}
+	, magnitude_(std::exchange(euc_vec.magnitude_, nullptr))
+	, norm_(std::exchange(euc_vec.norm_, 0.0))
+	, valid_norm_(std::exchange(euc_vec.valid_norm_, false)) {}
 
 	auto euclidean_vector::operator=(euclidean_vector const& euc_vec) noexcept -> euclidean_vector& {
-		// *this = euclidean_vector(euc_vec);
-		(void)euc_vec;
-		return *this;
+		return euclidean_vector(euc_vec).swap(*this);
 	}
 
 	auto euclidean_vector::operator=(euclidean_vector&& euc_vec) noexcept -> euclidean_vector& {
-		// std::swap(*this, euc_vec);
-		(void)euc_vec;
+		size_ = std::exchange(euc_vec.size_, 0);
+		magnitude_ = std::exchange(euc_vec.magnitude_, nullptr);
+		norm_ = std::exchange(euc_vec.norm_, 0.0);
+		valid_norm_ = std::exchange(euc_vec.valid_norm_, false);
 		return *this;
 	}
 
@@ -142,6 +153,14 @@ namespace comp6771 {
 		return static_cast<int>(size_);
 	}
 
+	auto euclidean_vector::swap(euclidean_vector& euc_vec) -> euclidean_vector& {
+		std::swap(size_, euc_vec.size_);
+		std::swap(magnitude_, euc_vec.magnitude_);
+		std::swap(norm_, euc_vec.norm_);
+		std::swap(valid_norm_, euc_vec.valid_norm_);
+		return *this;
+	}
+
 	auto euclidean_vector::do_plus(euclidean_vector const& left_addend,
 	                               euclidean_vector const& right_addend,
 	                               euclidean_vector& sum) -> void {
@@ -197,33 +216,16 @@ namespace comp6771 {
 		   [divisor](auto& component) { return std::divides<double>{}(component, divisor); });
 	}
 
-	auto euclidean_norm(euclidean_vector const& v) noexcept -> double {
-		return std::sqrt(dot(v, v));
-	}
-
 	auto unit(euclidean_vector const& v) -> euclidean_vector {
 		if (v.dimensions() == 0) {
 			throw euclidean_vector_error("euclidean_vector with no dimensions does not have a unit "
 			                             "vector");
 		}
-		auto unit_vector = euclidean_vector(v.dimensions(), 1.0);
-		if (euclidean_norm(unit_vector) == 0) {
+		auto norm = euclidean_norm(v);
+		if (norm == 0) {
 			throw euclidean_vector_error("euclidean_vector with zero euclidean normal does not have a "
 			                             "unit vector");
 		}
-		return unit_vector;
-	}
-
-	auto dot(euclidean_vector const& x, euclidean_vector const& y) -> double {
-		if (x.dimensions() != y.dimensions()) {
-			auto const what = "Dimensions of LHS(" + std::to_string(x.dimensions()) + ") and RHS("
-			                  + std::to_string(y.dimensions()) + ") do not match";
-			throw euclidean_vector_error(what);
-		}
-		auto dot_product_value = 0.0;
-		for (auto i = 0; i < x.dimensions(); i++) {
-			dot_product_value += (x.at(i) * y.at(i));
-		}
-		return dot_product_value;
+		return v / norm;
 	}
 } // namespace comp6771

@@ -7,6 +7,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <numeric>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -17,7 +18,6 @@ namespace comp6771::util {
 	auto is_double_equal(double const& a, double const& b) noexcept -> bool;
 
 } // namespace comp6771::util
-
 namespace comp6771 {
 	class euclidean_vector_error : public std::runtime_error {
 	public:
@@ -173,11 +173,33 @@ namespace comp6771 {
 			return output;
 		}
 
+		// Returns the Euclidean norm of the vector as a double. The Euclidean norm is the square root
+		// of the sum of the squares of the magnitudes in each dimension. E.g, for the vector [1 2 3]
+		// the Euclidean norm is sqrt(1*1 + 2*2 + 3*3) = 3.74. If v.dimensions() == 0, the result is
+		// 0.
+		friend auto euclidean_norm(euclidean_vector const& v) noexcept -> double {
+			v.norm_ = std::sqrt(dot(v, v));
+			v.valid_norm_ = true;
+			return v.norm_;
+		}
+
+		// Computes the dot product of x ⋅ y; returns a double. E.g., [1 2] ⋅ [3 4] = 1 * 3 + 2 * 4 =
+		// 11
+		friend auto dot(euclidean_vector const& x, euclidean_vector const& y) -> double {
+			if (x.dimensions() != y.dimensions()) {
+				auto const what = "Dimensions of LHS(" + std::to_string(x.dimensions()) + ") and RHS("
+				                  + std::to_string(y.dimensions()) + ") do not match";
+				throw euclidean_vector_error(what);
+			}
+			return std::inner_product(x.magnitude_.get(),
+			                          x.magnitude_.get() + x.dimensions(),
+			                          y.magnitude_.get(),
+			                          0.0);
+		}
+
 	private:
-		// static auto swap(euclidean_vector& first, euclidean_vector& second) -> euclidean_vector& {
-		// 	std::swap(first.size_, second.size_);
-		// 	std::swap
-		// }
+		// Function to carry out swap-and-copy idiom.
+		auto swap(euclidean_vector&) -> euclidean_vector&;
 
 		// Helper function to do addition of euclidean vectors.
 		static auto do_plus(euclidean_vector const&, euclidean_vector const&, euclidean_vector&)
@@ -198,19 +220,18 @@ namespace comp6771 {
 		// ass2 spec requires we use double[]
 		// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 		std::unique_ptr<double[]> magnitude_; // Magnitudes of each dimension.
+
+		mutable double norm_; // Save value of norm after computation.
+		mutable bool valid_norm_; // Flag to indicate saved norm is valid.
 	};
 
-	// Returns the Euclidean norm of the vector as a double. The Euclidean norm is the square root of
-	// the sum of the squares of the magnitudes in each dimension. E.g, for the vector [1 2 3] the
-	// Euclidean norm is sqrt(1*1 + 2*2 + 3*3) = 3.74. If v.dimensions() == 0, the result is 0.
 	auto euclidean_norm(euclidean_vector const& v) noexcept -> double;
 
 	// Returns a Euclidean vector that is the unit vector of v. The magnitude for each dimension in
 	// the unit vector is the original vector's magnitude divided by the Euclidean norm.
 	auto unit(euclidean_vector const& v) -> euclidean_vector;
 
-	// Computes the dot product of x ⋅ y; returns a double. E.g., [1 2] ⋅ [3 4] = 1 * 3 + 2 * 4 = 11
 	auto dot(euclidean_vector const& x, euclidean_vector const& y) -> double;
-
 } // namespace comp6771
+
 #endif // COMP6771_EUCLIDEAN_VECTOR_HPP
