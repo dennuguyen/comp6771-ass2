@@ -37,8 +37,8 @@ TEST_CASE("Dot product of euclidean vectors should multiply components element-w
 
 TEST_CASE("Dot product should not modify inputted euclidean vectors") {
 	SECTION("Euclidean vector with some positive and negative components") {
-		auto const lhs = comp6771::euclidean_vector({4.1, 3.2, -0.54, -5.9});
-		auto const rhs = comp6771::euclidean_vector({-6.7, 4.3, 7.9, 5.1});
+		auto lhs = comp6771::euclidean_vector({4.1, 3.2, -0.54, -5.9});
+		auto rhs = comp6771::euclidean_vector({-6.7, 4.3, 7.9, 5.1});
 		comp6771::dot(lhs, rhs);
 
 		CHECK(lhs.at(0) == Approx(4.1));
