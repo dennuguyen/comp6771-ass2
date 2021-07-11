@@ -14,37 +14,37 @@
 
 TEST_CASE("Dimensions should return the number of components of the euclidean vector") {
 	SECTION("0 dimension") {
-		auto euc_vec = comp6771::euclidean_vector(0);
+		auto const euc_vec = comp6771::euclidean_vector(0);
 		CHECK(euc_vec.dimensions() == 0);
 	}
 
 	SECTION("1 dimension") {
-		auto euc_vec = comp6771::euclidean_vector(1);
+		auto const euc_vec = comp6771::euclidean_vector(1);
 		CHECK(euc_vec.dimensions() == 1);
 	}
 
 	SECTION("2 dimensions") {
-		auto euc_vec = comp6771::euclidean_vector(2);
+		auto const euc_vec = comp6771::euclidean_vector(2);
 		CHECK(euc_vec.dimensions() == 2);
 	}
 
 	SECTION("3 dimensions") {
-		auto euc_vec = comp6771::euclidean_vector(3);
+		auto const euc_vec = comp6771::euclidean_vector(3);
 		CHECK(euc_vec.dimensions() == 3);
 	}
 
 	SECTION("100 dimensions") {
-		auto euc_vec = comp6771::euclidean_vector(100);
+		auto const euc_vec = comp6771::euclidean_vector(100);
 		CHECK(euc_vec.dimensions() == 100);
 	}
 
 	SECTION("2512 dimensions") {
-		auto euc_vec = comp6771::euclidean_vector(2512);
+		auto const euc_vec = comp6771::euclidean_vector(2512);
 		CHECK(euc_vec.dimensions() == 2512);
 	}
 
 	SECTION("10403 dimensions") {
-		auto euc_vec = comp6771::euclidean_vector(10403);
+		auto const euc_vec = comp6771::euclidean_vector(10403);
 		CHECK(euc_vec.dimensions() == 10403);
 	}
 }
