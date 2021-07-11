@@ -78,14 +78,14 @@ TEST_CASE("Modifying the copy should not modify copied") {
 
 TEST_CASE("Move assignment should move members correctly") {
 	SECTION("Move empty euclidean vector") {
-		auto const euc_vec1 = comp6771::euclidean_vector({});
+		auto euc_vec1 = comp6771::euclidean_vector({});
 		auto euc_vec2 = comp6771::euclidean_vector();
 		euc_vec2 = std::move(euc_vec1);
 		CHECK(euc_vec2.dimensions() == 0);
 	}
 
 	SECTION("Move 1 dimension euclidean vector") {
-		auto const euc_vec1 = comp6771::euclidean_vector({3.4});
+		auto euc_vec1 = comp6771::euclidean_vector({3.4});
 		auto euc_vec2 = comp6771::euclidean_vector();
 		euc_vec2 = std::move(euc_vec1);
 		CHECK(euc_vec2.at(0) == Approx(3.4));
@@ -93,7 +93,7 @@ TEST_CASE("Move assignment should move members correctly") {
 	}
 
 	SECTION("Move multi-dimension euclidean vector") {
-		auto const euc_vec1 = comp6771::euclidean_vector({3.4, 6.1, 7.184181, 5.51});
+		auto euc_vec1 = comp6771::euclidean_vector({3.4, 6.1, 7.184181, 5.51});
 		auto euc_vec2 = comp6771::euclidean_vector();
 		euc_vec2 = std::move(euc_vec1);
 		CHECK(euc_vec2.at(0) == Approx(3.4));
