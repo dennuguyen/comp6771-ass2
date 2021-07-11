@@ -14,15 +14,15 @@
 
 TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 	SECTION("Adding empty RHS to empty LHS") {
-		auto rhs = comp6771::euclidean_vector({});
 		auto lhs = comp6771::euclidean_vector({});
+		auto const rhs = comp6771::euclidean_vector({});
 		lhs += rhs;
 		CHECK(lhs.dimensions() == 0);
 	}
 
 	SECTION("Adding zero RHS to LHS") {
-		auto rhs = comp6771::euclidean_vector({0.0, 0.0, 0.0});
 		auto lhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
+		auto const rhs = comp6771::euclidean_vector({0.0, 0.0, 0.0});
 		lhs += rhs;
 		CHECK(lhs.at(0) == Approx(2.3));
 		CHECK(lhs.at(1) == Approx(4.6));
@@ -31,8 +31,8 @@ TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 	}
 
 	SECTION("Adding RHS to zero LHS") {
-		auto rhs = comp6771::euclidean_vector({4.33, 43.612, 95.1, 213.1});
 		auto lhs = comp6771::euclidean_vector({0.0, 0.0, 0.0, 0.0});
+		auto const rhs = comp6771::euclidean_vector({4.33, 43.612, 95.1, 213.1});
 		lhs += rhs;
 		CHECK(lhs.at(0) == Approx(4.33));
 		CHECK(lhs.at(1) == Approx(43.612));
@@ -42,8 +42,8 @@ TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 	}
 
 	SECTION("Adding RHS with positive components to LHS with positive components") {
-		auto rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		auto lhs = comp6771::euclidean_vector({9.4, 1.43, 1.1});
+		auto const rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		lhs += rhs;
 		CHECK(lhs.at(0) == Approx(11.7));
 		CHECK(lhs.at(1) == Approx(6.03));
@@ -52,8 +52,8 @@ TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 	}
 
 	SECTION("Adding RHS with negative components to LHS with positive components") {
-		auto rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		auto lhs = comp6771::euclidean_vector({1.42, 1.2, 4.63});
+		auto const rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		lhs += rhs;
 		CHECK(lhs.at(0) == Approx(-0.88));
 		CHECK(lhs.at(1) == Approx(-3.4));
@@ -62,8 +62,8 @@ TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 	}
 
 	SECTION("Adding RHS with positive components to LHS with negative components") {
-		auto rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		auto lhs = comp6771::euclidean_vector({-1.42, -1.2, -4.63});
+		auto const rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		lhs += rhs;
 		CHECK(lhs.at(0) == Approx(0.88));
 		CHECK(lhs.at(1) == Approx(3.4));
@@ -72,8 +72,8 @@ TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 	}
 
 	SECTION("Adding RHS with negative components to LHS with negative components") {
-		auto rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		auto lhs = comp6771::euclidean_vector({-1.42, -1.2, -4.63});
+		auto const rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		lhs += rhs;
 		CHECK(lhs.at(0) == Approx(-3.72));
 		CHECK(lhs.at(1) == Approx(-5.8));
@@ -84,15 +84,15 @@ TEST_CASE("Compound addition should add RHS magnitude to LHS magnitudes") {
 
 TEST_CASE("Compound addition should not change RHS") {
 	SECTION("Adding empty RHS to empty LHS") {
-		auto rhs = comp6771::euclidean_vector({});
 		auto lhs = comp6771::euclidean_vector({});
+		auto rhs = comp6771::euclidean_vector({});
 		lhs += rhs;
 		CHECK(rhs.dimensions() == 0);
 	}
 
 	SECTION("Adding zero RHS to LHS") {
-		auto rhs = comp6771::euclidean_vector({0.0, 0.0, 0.0});
 		auto lhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
+		auto rhs = comp6771::euclidean_vector({0.0, 0.0, 0.0});
 		lhs += rhs;
 		CHECK(rhs.at(0) == Approx(0.0));
 		CHECK(rhs.at(1) == Approx(0.0));
@@ -101,8 +101,8 @@ TEST_CASE("Compound addition should not change RHS") {
 	}
 
 	SECTION("Adding RHS to zero LHS") {
-		auto rhs = comp6771::euclidean_vector({4.33, 43.612, 95.1, 213.1});
 		auto lhs = comp6771::euclidean_vector({0.0, 0.0, 0.0, 0.0});
+		auto rhs = comp6771::euclidean_vector({4.33, 43.612, 95.1, 213.1});
 		lhs += rhs;
 		CHECK(rhs.at(0) == Approx(4.33));
 		CHECK(rhs.at(1) == Approx(43.612));
@@ -112,8 +112,8 @@ TEST_CASE("Compound addition should not change RHS") {
 	}
 
 	SECTION("Adding RHS with positive components to LHS with positive components") {
-		auto rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		auto lhs = comp6771::euclidean_vector({9.4, 1.43, 1.1});
+		auto rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		lhs += rhs;
 		CHECK(rhs.at(0) == Approx(2.3));
 		CHECK(rhs.at(1) == Approx(4.6));
@@ -122,8 +122,8 @@ TEST_CASE("Compound addition should not change RHS") {
 	}
 
 	SECTION("Adding RHS with negative components to LHS with positive components") {
-		auto rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		auto lhs = comp6771::euclidean_vector({1.42, 1.2, 4.63});
+		auto rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		lhs += rhs;
 		CHECK(rhs.at(0) == Approx(-2.3));
 		CHECK(rhs.at(1) == Approx(-4.6));
@@ -132,8 +132,8 @@ TEST_CASE("Compound addition should not change RHS") {
 	}
 
 	SECTION("Adding RHS with positive components to LHS with negative components") {
-		auto rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		auto lhs = comp6771::euclidean_vector({-1.42, -1.2, -4.63});
+		auto rhs = comp6771::euclidean_vector({2.3, 4.6, 1.1});
 		lhs += rhs;
 		CHECK(rhs.at(0) == Approx(2.3));
 		CHECK(rhs.at(1) == Approx(4.6));
@@ -142,8 +142,8 @@ TEST_CASE("Compound addition should not change RHS") {
 	}
 
 	SECTION("Adding RHS with negative components to LHS with negative components") {
-		auto rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		auto lhs = comp6771::euclidean_vector({-1.42, -1.2, -4.63});
+		auto rhs = comp6771::euclidean_vector({-2.3, -4.6, -1.1});
 		lhs += rhs;
 		CHECK(rhs.at(0) == Approx(-2.3));
 		CHECK(rhs.at(1) == Approx(-4.6));
@@ -154,26 +154,26 @@ TEST_CASE("Compound addition should not change RHS") {
 
 TEST_CASE("Compound addition should throw when LHS and RHS sizes are unequal") {
 	SECTION("Adding empty RHS to 1D LHS") {
-		auto rhs = comp6771::euclidean_vector({});
 		auto lhs = comp6771::euclidean_vector({2.2});
+		auto const rhs = comp6771::euclidean_vector({});
 		CHECK_THROWS_AS(lhs += rhs, comp6771::euclidean_vector_error);
 	}
 
 	SECTION("Adding 2D RHS to empty LHS") {
-		auto rhs = comp6771::euclidean_vector({5.3, -1.3});
 		auto lhs = comp6771::euclidean_vector({});
+		auto const rhs = comp6771::euclidean_vector({5.3, -1.3});
 		CHECK_THROWS_AS(lhs += rhs, comp6771::euclidean_vector_error);
 	}
 
 	SECTION("Adding 2D RHS to 5D LHS") {
-		auto rhs = comp6771::euclidean_vector({5.3, -1.3});
 		auto lhs = comp6771::euclidean_vector({3.1, 4.2, -3.1, -7.4, 23.4});
+		auto const rhs = comp6771::euclidean_vector({5.3, -1.3});
 		CHECK_THROWS_AS(lhs += rhs, comp6771::euclidean_vector_error);
 	}
 
 	SECTION("Adding 5D RHS to 1D LHS") {
-		auto rhs = comp6771::euclidean_vector({5.3, -1.3, 3, 2.3, 1.03});
 		auto lhs = comp6771::euclidean_vector({3.1});
+		auto const rhs = comp6771::euclidean_vector({5.3, -1.3, 3, 2.3, 1.03});
 		CHECK_THROWS_AS(lhs += rhs, comp6771::euclidean_vector_error);
 	}
 }
