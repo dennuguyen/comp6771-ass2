@@ -71,6 +71,20 @@ TEST_CASE("Unit vector of euclidean vector should have components divided by nor
 	}
 }
 
+TEST_CASE("Creating a unit vector should not modify original euclidean vector") {
+	SECTION("Euclidean vector with some components") {
+		auto const euc_vec = comp6771::euclidean_vector({1.232, -1.232, 43.343, -2342.1, 23.9, -0.932});
+		comp6771::unit(euc_vec);
+		CHECK(euc_vec.at(0) == Approx(1.232));
+		CHECK(euc_vec.at(1) == Approx(-1.232));
+		CHECK(euc_vec.at(2) == Approx(43.343));
+		CHECK(euc_vec.at(3) == Approx(-2342.1));
+		CHECK(euc_vec.at(4) == Approx(23.9));
+		CHECK(euc_vec.at(5) == Approx(-0.932));
+		CHECK(euc_vec.dimensions() == 6);
+	}
+}
+
 TEST_CASE("Euclidean vector with no dimensions should throw") {
 	SECTION("No dimensions") {
 		auto const euc_vec = comp6771::euclidean_vector({});
