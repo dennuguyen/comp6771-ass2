@@ -14,25 +14,25 @@
 
 TEST_CASE("Unit vector of euclidean vector and euclidean vector should have the same dimensions") {
 	SECTION("1 dimension") {
-		auto const euc_vec = comp6771::euclidean_vector(1);
+		auto const euc_vec = comp6771::euclidean_vector(1, 10.4232);
 		auto const unit = comp6771::unit(euc_vec);
 		CHECK(unit.dimensions() == 1);
 	}
 
 	SECTION("2 dimension") {
-		auto const euc_vec = comp6771::euclidean_vector(2);
+		auto const euc_vec = comp6771::euclidean_vector(2, 10.4232);
 		auto const unit = comp6771::unit(euc_vec);
 		CHECK(unit.dimensions() == 2);
 	}
 
 	SECTION("49 dimension") {
-		auto const euc_vec = comp6771::euclidean_vector(49);
+		auto const euc_vec = comp6771::euclidean_vector(49, 10.4232);
 		auto const unit = comp6771::unit(euc_vec);
 		CHECK(unit.dimensions() == 49);
 	}
 
 	SECTION("210 dimension") {
-		auto const euc_vec = comp6771::euclidean_vector(210);
+		auto const euc_vec = comp6771::euclidean_vector(210, 10.4232);
 		auto const unit = comp6771::unit(euc_vec);
 		CHECK(unit.dimensions() == 210);
 	}
