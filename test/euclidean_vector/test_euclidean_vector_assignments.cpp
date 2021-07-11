@@ -53,7 +53,7 @@ TEST_CASE("Copy assignment should copy members correctly") {
 
 TEST_CASE("Modifying the copy should not modify copied") {
 	SECTION("Copy euclidean vector and write to it") {
-		auto const euc_vec1 = comp6771::euclidean_vector({3.4, 6.1, 7.184181, 5.51});
+		auto euc_vec1 = comp6771::euclidean_vector({3.4, 6.1, 7.184181, 5.51});
 		auto euc_vec2 = euc_vec1;
 		euc_vec2.at(2) = 31.0;
 		euc_vec2.at(3) = 51.312;
