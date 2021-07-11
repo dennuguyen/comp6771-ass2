@@ -44,6 +44,28 @@ TEST_CASE("Norm of euclidean vector should square components element-wise and sq
 	}
 }
 
+TEST_CASE("Modifying the euclidean vector should calculate a new norm") {
+	SECTION("Modify to different value") {
+		auto euc_vec = comp6771::euclidean_vector({4.8, -4.21, 543.2, -54.1});
+		auto norm = comp6771::euclidean_norm(euc_vec);
+		REQUIRE(norm == Approx(545.9247));
+
+		euc_vec.at(2) = 100.3;
+		norm = comp6771::euclidean_norm(euc_vec);
+		CHECK(norm == Approx(114.1388));
+	}
+
+	SECTION("Modify to itself") {
+		auto euc_vec = comp6771::euclidean_vector({4.8, -4.21, 543.2, -54.1});
+		auto norm = comp6771::euclidean_norm(euc_vec);
+		REQUIRE(norm == Approx(545.9247));
+
+		euc_vec.at(2) = 543.2;
+		norm = comp6771::euclidean_norm(euc_vec);
+		CHECK(norm == Approx(545.9247));
+	}
+}
+
 TEST_CASE("Norm should not modify input euclidean vector") {
 	SECTION("Euclidean vector with some positive and negative components") {
 		auto const euc_vec = comp6771::euclidean_vector({4.1, 3.2, -0.54, -5.9, 0.0});
