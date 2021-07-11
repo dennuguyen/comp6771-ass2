@@ -68,7 +68,7 @@ TEST_CASE("Modifying the euclidean vector should calculate a new norm") {
 
 TEST_CASE("Norm should not modify input euclidean vector") {
 	SECTION("Euclidean vector with some positive and negative components") {
-		auto const euc_vec = comp6771::euclidean_vector({4.1, 3.2, -0.54, -5.9, 0.0});
+		auto euc_vec = comp6771::euclidean_vector({4.1, 3.2, -0.54, -5.9, 0.0});
 		comp6771::euclidean_norm(euc_vec);
 		CHECK(euc_vec.at(0) == Approx(4.1));
 		CHECK(euc_vec.at(1) == Approx(3.2));
