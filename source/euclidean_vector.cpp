@@ -82,6 +82,7 @@ namespace comp6771 {
 
 	auto euclidean_vector::operator[](int component) noexcept -> double& {
 		assert(0 <= component && component < dimensions());
+		valid_norm_ = false;
 		return magnitude_[static_cast<std::size_t>(component)];
 	}
 
@@ -146,6 +147,7 @@ namespace comp6771 {
 			   "Index " + std::to_string(component) + " is not valid for this euclidean_vector object";
 			throw euclidean_vector_error(what);
 		}
+		valid_norm_ = false;
 		return magnitude_[static_cast<std::size_t>(component)];
 	}
 
@@ -175,6 +177,7 @@ namespace comp6771 {
 		               right_addend.magnitude_.get(),
 		               sum.magnitude_.get(),
 		               [](auto const& lhs, auto const& rhs) { return std::plus<double>{}(lhs, rhs); });
+		sum.valid_norm_ = false;
 	}
 
 	auto euclidean_vector::do_minus(euclidean_vector const& minuend,
@@ -190,6 +193,7 @@ namespace comp6771 {
 		               subtrahend.magnitude_.get(),
 		               difference.magnitude_.get(),
 		               [](auto const& lhs, auto const& rhs) { return std::minus<double>{}(lhs, rhs); });
+		difference.valid_norm_ = false;
 	}
 
 	auto euclidean_vector::do_multiply(euclidean_vector const& multiplicand,
@@ -201,6 +205,7 @@ namespace comp6771 {
 		               [multiplier](auto const& component) {
 			               return std::multiplies<double>{}(component, multiplier);
 		               });
+		product.valid_norm_ = false;
 	}
 
 	auto euclidean_vector::do_divide(euclidean_vector const& dividend,
@@ -214,6 +219,7 @@ namespace comp6771 {
 		   dividend.magnitude_.get() + dividend.size_,
 		   quotient.magnitude_.get(),
 		   [divisor](auto& component) { return std::divides<double>{}(component, divisor); });
+		quotient.valid_norm_ = false;
 	}
 
 	auto unit(euclidean_vector const& v) -> euclidean_vector {

@@ -178,8 +178,10 @@ namespace comp6771 {
 		// the Euclidean norm is sqrt(1*1 + 2*2 + 3*3) = 3.74. If v.dimensions() == 0, the result is
 		// 0.
 		friend auto euclidean_norm(euclidean_vector const& v) noexcept -> double {
-			v.norm_ = std::sqrt(dot(v, v));
-			v.valid_norm_ = true;
+			if (v.valid_norm_ == false) {
+				v.norm_ = std::sqrt(dot(v, v));
+				v.valid_norm_ = true;
+			}
 			return v.norm_;
 		}
 
