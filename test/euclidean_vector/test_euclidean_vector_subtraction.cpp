@@ -87,14 +87,14 @@ TEST_CASE("Swapping minuend and subtrahend should return euclidean vector and it
 		auto const diff1 = lhs - rhs;
 		auto const diff2 = rhs - lhs;
 
-		CHECK(diff1.at(0) == Approx(11.7));
-		CHECK(diff1.at(1) == Approx(4.98));
-		CHECK(diff1.at(2) == Approx(-0.2));
+		CHECK(diff1.at(0) == Approx(-5.1));
+		CHECK(diff1.at(1) == Approx(5.62));
+		CHECK(diff1.at(2) == Approx(-4.4));
 		CHECK(diff1.dimensions() == 3);
 
-		CHECK(diff2.at(0) == Approx(-11.7));
-		CHECK(diff2.at(1) == Approx(-4.98));
-		CHECK(diff2.at(2) == Approx(0.2));
+		CHECK(diff2.at(0) == Approx(5.1));
+		CHECK(diff2.at(1) == Approx(-5.62));
+		CHECK(diff2.at(2) == Approx(4.4));
 		CHECK(diff2.dimensions() == 3);
 	}
 }
