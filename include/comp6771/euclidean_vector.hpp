@@ -28,7 +28,7 @@ namespace comp6771 {
 	class euclidean_vector {
 	public:
 		// A constructor that generates a euclidean vector with a dimension of 1 and magnitude of 0.0.
-		explicit euclidean_vector() noexcept;
+		euclidean_vector() noexcept;
 
 		// A constructor that takes the number of dimensions (as a int) but no magnitudes, sets the
 		// magnitude in each dimension as 0.0. You can assume the integer input will always be
@@ -38,12 +38,12 @@ namespace comp6771 {
 		// A constructor that takes the number of dimensions (as an int) and initialises the magnitude
 		// in each dimension as the second argument (a double). You can assume the integer input will
 		// always be non-negative.
-		explicit euclidean_vector(int, double) noexcept;
+		euclidean_vector(int, double) noexcept;
 
 		// A constructor (or constructors) that takes the start and end of an iterator to a
 		// std:vector<double> and works out the required dimensions, and sets the magnitude in each
 		// dimension according to the iterated values.
-		explicit euclidean_vector(std::vector<double>::const_iterator,
+		euclidean_vector(std::vector<double>::const_iterator,
 		                          std::vector<double>::const_iterator) noexcept;
 
 		// A constructor that takes an initialiser list of doubles to populate vector magnitudes. You
